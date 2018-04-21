@@ -1,0 +1,37 @@
+<project name="build" default="build" basedir=".">
+  <property environment="e"/>
+  <target name="clean">
+		<delete dir="classes"/>
+		<delete dir="docs"/>
+  </target>
+  <target name="init">
+    <mkdir dir="classes"/>
+    <mkdir dir="docs"/>
+  </target>
+  <target name="compile">
+    <javac srcdir="src" destdir="classes" deprecation="on">
+      <classpath>
+        <pathelement location="classes"/>
+      </classpath>
+    </javac>
+    <javac srcdir="tests" destdir="classes" deprecation="on">
+      <classpath>
+        <pathelement location="classes"/>
+      </classpath>
+    </javac>
+  </target>
+  <target name="docs">
+    <javadoc sourcepath="src" destdir="docs" author="true" version="true" packagenames="sg.edu.nus.iss.vmcs.*"/>
+  </target>
+  <target name="test">
+    <junit printsummary="yes" fork="yes">
+      <jvmarg value="-DpropertyFilename=Vmcs.properties"/>  
+      <formatter type="plain"/>
+      <test name="sg.edu.nus.iss.vmcs.store.AllTests"/>
+      <classpath>
+        <pathelement location="classes"/>
+      </classpath>
+    </junit>
+  </target>
+  <target name="build" depends="clean,init,compile,docs"></target>
+</project>

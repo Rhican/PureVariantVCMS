@@ -1,0 +1,21 @@
+#
+#Fri Sep 28 16:03:40 SGT 2007
+Name6=Soya Bean
+Name5=Coca-Cola
+Name4=Soya Bean
+Name3=Sarsi
+Name2=Fanta
+Name1=Coca-Cola
+NumOfItems=6
+Quantity6=1
+Quantity5=5
+Quantity4=2
+Quantity3=0
+Quantity2=1
+Quantity1=0
+Price6=90
+Price5=100
+Price4=90
+Price3=60
+Price2=65
+Price1=100

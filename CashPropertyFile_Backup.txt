@@ -1,0 +1,23 @@
+#
+#Fri Sep 28 16:03:40 SGT 2007
+Name5=$1
+Name4=50C
+Name3=20C
+Name2=10C
+Name1=5C
+Value5=100
+Value4=50
+NumOfItems=5
+Value3=20
+Value2=10
+Value1=5
+Quantity5=11
+Quantity4=18
+Quantity3=14
+Quantity2=2
+Quantity1=0
+Weight5=42.2
+Weight4=35.0
+Weight3=18.5
+Weight2=10.9
+Weight1=7.1
