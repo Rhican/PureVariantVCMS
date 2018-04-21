@@ -1,5 +1,5 @@
 #
-#Sat Apr 21 17:12:20 SGT 2018
+#Sat Apr 21 20:09:11 SGT 2018
 Name6=Soya Bean
 Name5=Coca-Cola
 Name4=Soya Bean
@@ -8,8 +8,8 @@ Name2=Fanta
 Name1=Coca-Cola
 NumOfItems=6
 Quantity6=0
-Quantity5=3
-Quantity4=1
+Quantity5=0
+Quantity4=0
 Quantity3=0
 Quantity2=0
 Quantity1=0

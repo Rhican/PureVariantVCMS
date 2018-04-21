@@ -20,7 +20,7 @@ import sg.edu.nus.iss.vmcs.util.VMCSException;
  * @author Team SE16T5E
  * @version 1.0 2008-10-01
  */
-public class CoinReceiver {
+public class CoinReceiver implements CoinReceptionComponent {
 	private TransactionController txCtrl;
 	
 	/**List of the Coins entered during the transaction.*/

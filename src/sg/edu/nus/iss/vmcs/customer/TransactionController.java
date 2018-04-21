@@ -32,9 +32,9 @@ import sg.edu.nus.iss.vmcs.system.SimulatorControlPanel;
 public class TransactionController {
 	private MainController mainCtrl;
 	private CustomerPanel custPanel;
-	private DispenseController dispenseCtrl;
+	private DispenseComponent dispenseCtrl;
 	private ChangeGiver changeGiver;
-	private CoinReceiver coinReceiver;
+	private CoinReceptionComponent coinReceiver;
 
 	/**Set to TRUE when change is successfully issued during the transaction.*/
 	private boolean changeGiven=false;
@@ -51,8 +51,8 @@ public class TransactionController {
 	 */
 	public TransactionController(MainController mainCtrl) {
 		this.mainCtrl = mainCtrl;
-		dispenseCtrl=new DispenseController(this);
-		coinReceiver=new CoinReceiver(this);
+		dispenseCtrl=new DispenseControllerLogDecorator(new DispenseController(this));
+		coinReceiver=new CoinReceptionLogDecorator(new CoinReceiver(this));
 		changeGiver=new ChangeGiver(this);
 	}
 
@@ -309,7 +309,7 @@ public class TransactionController {
 	 * This method returns the DispenseController.
 	 * @return the DispenseController.
 	 */
-	public DispenseController getDispenseController(){
+	public DispenseComponent getDispenseController(){
 		return dispenseCtrl;
 	}
 	
@@ -325,7 +325,7 @@ public class TransactionController {
 	 * This method returns the CoinReceiver.
 	 * @return the CoinReceiver.
 	 */
-	public CoinReceiver getCoinReceiver(){
+	public CoinReceptionComponent getCoinReceiver(){
 		return coinReceiver;
 	}
 	
