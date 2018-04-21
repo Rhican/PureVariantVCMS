@@ -30,6 +30,8 @@ import sg.edu.nus.iss.vmcs.system.SimulatorControlPanel;
  * @version 1.0 2008-10-01
  */
 public class TransactionController {
+	private static boolean logItemDispensing = true;
+	private static boolean logPayment = true;
 	private MainController mainCtrl;
 	private CustomerPanel custPanel;
 	private DispenseComponent dispenseCtrl;
@@ -51,8 +53,12 @@ public class TransactionController {
 	 */
 	public TransactionController(MainController mainCtrl) {
 		this.mainCtrl = mainCtrl;
-		dispenseCtrl=new DispenseControllerLogDecorator(new DispenseController(this));
-		coinReceiver=new CoinReceptionLogDecorator(new CoinReceiver(this));
+		dispenseCtrl= (logItemDispensing) 
+				? new DispenseControllerLogDecorator(new DispenseController(this))
+				: new DispenseControllerDecorator(new DispenseController(this));
+		coinReceiver = (logPayment) 
+				? new CoinReceptionLogDecorator(new CoinReceiver(this))
+				: new CoinReceptionDecorator(new CoinReceiver(this));
 		changeGiver=new ChangeGiver(this);
 	}
 
