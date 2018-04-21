@@ -10,6 +10,8 @@ package sg.edu.nus.iss.vmcs.customer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import sg.edu.nus.iss.vmcs.VariantPointConstants;
+
 /**
  * This control object implements the coin denomination selection
  * (button presses by the customer) on the Customer Panel when coins
@@ -19,14 +21,13 @@ import java.awt.event.ActionListener;
  * @version 1.0 2008-10-01
  */
 public class CoinInputListener implements ActionListener{
-	CoinReceptionComponent coinReceiver;
-	
+	private TransactionController txController;
 	/**
 	 * This constructor creates an instance of the Coin Input Listener
 	 * @param coinReceiver the Coin Receiver
 	 */
-	public CoinInputListener(CoinReceptionComponent coinReceiver){
-		this.coinReceiver=coinReceiver;
+	public CoinInputListener(TransactionController txController){
+		this.txController = txController;
 	}
 	
 	/**
@@ -34,6 +35,12 @@ public class CoinInputListener implements ActionListener{
 	 */
 	public void actionPerformed(ActionEvent ev){
 		CoinButton coinButton=(CoinButton)ev.getSource();
-		coinReceiver.receiveCoin(coinButton.getWeight());
+		if (txController.getPaymentReceiver() == null) {
+			txController.setPaymentReceiver(
+					VariantPointConstants.vLogPayment
+						? new PaymentLogDecorator(new CoinReceiver(txController))
+						: new PaymentDecorator(new CoinReceiver(txController)));
+		}
+		txController.getPaymentReceiver().makePayment(String.valueOf(coinButton.getWeight()));
 	}
 }//End of class CoinInputListener

@@ -31,6 +31,7 @@ import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import sg.edu.nus.iss.vmcs.VariantPointConstants;
 import sg.edu.nus.iss.vmcs.system.SimulatorControlPanel;
 import sg.edu.nus.iss.vmcs.util.LabelledValue;
 import sg.edu.nus.iss.vmcs.util.WarningDisplay;
@@ -89,6 +90,7 @@ public class CustomerPanel extends Dialog {
     private Label lblTitle=new Label("VMCS Soft Drinks Dispenser");
     private Label lblEnterCoins=new Label("Enter Coins Here");
     private CoinInputBox coinInputBox;
+    private CardDetector cardDetector;
     private DrinkSelectionBox drinkSelectionBox;
     private WarningDisplay wndInvalidCoin=new WarningDisplay("Invalid Coin");
     private LabelledValue lbdTotalMoneyInserted=new LabelledValue("Total Money Inserted:","0 C",50);
@@ -119,11 +121,21 @@ public class CustomerPanel extends Dialog {
 			}
 		});
 		
-		coinInputBox=new CoinInputBox(txCtrl);
+		if (VariantPointConstants.vCashPayment) {
+			coinInputBox=new CoinInputBox(txCtrl);
+		}
+		if (VariantPointConstants.vCardPayment) {
+			cardDetector=new CardDetector(txCtrl);
+		}
 		drinkSelectionBox=new DrinkSelectionBox(txCtrl);
 		TerminateButtonListener terminateButtonListener=new TerminateButtonListener(txCtrl);
 		
-		coinInputBox.setActive(false);
+		if (VariantPointConstants.vCashPayment) {
+			coinInputBox.setActive(false);
+		}
+		if (VariantPointConstants.vCardPayment) {
+			cardDetector.setActive(false);
+		}
 		drinkSelectionBox.setActive(true);
 		
 		btnTerminate.addActionListener(terminateButtonListener);
@@ -132,31 +144,41 @@ public class CustomerPanel extends Dialog {
 		lblTitle.setFont(new Font("Helvetica", Font.BOLD, 24));
 		
 		pan0.setLayout(new GridBagLayout());
-		pan0.add(lblEnterCoins,new GridBagConstraints(0,0,1,1,1.0,0.0,
+		int i = 0;
+		if (VariantPointConstants.vCashPayment) {
+			pan0.add(lblEnterCoins,new GridBagConstraints(0,i++,1,1,1.0,0.0,
+				    GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,
+				    new Insets(5,0,0,0),10,0));
+			pan0.add(coinInputBox,new GridBagConstraints(0,i++,0,1,1.0,0.0,
+				    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
+				    new Insets(2,0,0,0),10,0));
+		}
+		if (VariantPointConstants.vCardPayment) {
+			pan0.add(cardDetector,new GridBagConstraints(0,i++,1,1,1.0,0.0,
+				    GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,
+				    new Insets(5,0,0,0),10,0));
+		}
+		pan0.add(wndInvalidCoin,new GridBagConstraints(0,i++,1,1,1.0,0.0,
 			    GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,
-			    new Insets(5,0,0,0),10,0));  
-		pan0.add(coinInputBox,new GridBagConstraints(0,1,0,1,1.0,0.0,
-			    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
-			    new Insets(2,0,0,0),10,0));  
-		pan0.add(wndInvalidCoin,new GridBagConstraints(0,2,1,1,1.0,0.0,
-			    GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,
 			    new Insets(5,0,0,0),10,0));
-		pan0.add(lbdTotalMoneyInserted,new GridBagConstraints(0,3,0,1,0.0,0.0,
+		pan0.add(lbdTotalMoneyInserted,new GridBagConstraints(0,i++,0,1,0.0,0.0,
 			    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
 			    new Insets(5,0,0,0),10,0));
-		pan0.add(drinkSelectionBox,new GridBagConstraints(0,4,0,1,0.0,0.0,
+		pan0.add(drinkSelectionBox,new GridBagConstraints(0,i++,0,1,0.0,0.0,
 			    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
 			    new Insets(5,0,0,0),10,0));
-		pan0.add(wndNoChangeAvailable,new GridBagConstraints(0,5,0,1,0.0,0.0,
-			    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
-			    new Insets(5,0,0,0),10,0));
-		pan0.add(btnTerminate,new GridBagConstraints(0,6,0,1,0.0,0.0,
+		if (VariantPointConstants.vCashPayment) {
+			pan0.add(wndNoChangeAvailable,new GridBagConstraints(0,i++,0,1,0.0,0.0,
+				    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
+				    new Insets(5,0,0,0),10,0));
+		}
+		pan0.add(btnTerminate,new GridBagConstraints(0,i++,0,1,0.0,0.0,
 			    GridBagConstraints.CENTER,GridBagConstraints.NONE,
 			    new Insets(5,0,0,0),10,0));
-		pan0.add(lbdCollectCoins,new GridBagConstraints(0,7,0,1,0.0,0.0,
+		pan0.add(lbdCollectCoins,new GridBagConstraints(0,i++,0,1,0.0,0.0,
 			    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
 			    new Insets(5,0,0,0),10,0));
-		pan0.add(lbdCollectCan,new GridBagConstraints(0,8,0,1,0.0,0.0,
+		pan0.add(lbdCollectCan,new GridBagConstraints(0,i++,0,1,0.0,0.0,
 			    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
 			    new Insets(2,0,20,0),10,0));
 		
@@ -292,8 +314,13 @@ public class CustomerPanel extends Dialog {
 	 * This method turning On or Off the "Invalid Coin" highlight.
 	 * @param isOn TRUE to turn on the highlight, otherwise, turn off the highlight.
 	 */
-	public void displayInvalidCoin(boolean isOn){
-		wndInvalidCoin.setState(isOn);
+	public void displayInvalidCoin(String text){
+		wndInvalidCoin.setLabel(text);
+		wndInvalidCoin.setState(true);
+	}
+	
+	public void hideInvalidCoin(){
+		wndInvalidCoin.setState(false);
 	}
 	
 	/**
@@ -322,6 +349,10 @@ public class CustomerPanel extends Dialog {
 		coinInputBox.setActive(active);
 	}
 	
+	public void setCardDetectorActive(boolean active){
+		cardDetector.setActive(active);
+	}
+	
 	/**
 	 * This method activates or deactivates the Terminate Button
 	 * @param active the active status of the Terminate Button; TRUE to activate,
@@ -337,6 +368,10 @@ public class CustomerPanel extends Dialog {
 	 */
 	public CoinInputBox getCoinInputBox(){
 		return coinInputBox;
+	}
+	
+	public CardDetector getCardDetector(){
+		return cardDetector;
 	}
 	
 	/**

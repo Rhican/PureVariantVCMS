@@ -44,7 +44,7 @@ public class CoinInputBox extends Panel{
 		StoreItem[] cashStoreItems=storeCtrl.getStore(Store.CASH).getItems();
 		
 		btnCoinButton=new CoinButton[cashStoreSize+1];
-		CoinInputListener coinInputListener=new CoinInputListener(txCtrl.getCoinReceiver());
+		CoinInputListener coinInputListener=new CoinInputListener(txCtrl);
 		
 		setLayout(new GridBagLayout());
 		for(int i=0;i<cashStoreItems.length;i++){

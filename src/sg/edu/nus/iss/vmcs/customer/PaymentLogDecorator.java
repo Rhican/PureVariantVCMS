@@ -1,14 +1,33 @@
 package sg.edu.nus.iss.vmcs.customer;
 
-public interface CoinReceptionComponent {
+import sg.edu.nus.iss.vmcs.log.VMCSLogger;
 
+/**
+ * This class is used for coin reception with audit trail.
+ * @author SPLE Team 04
+ *
+ */
+public class PaymentLogDecorator extends PaymentDecorator {
+	
+	private VMCSLogger logger = new VMCSLogger();
+	
+	/**
+	 * Constructor to create object.
+	 * @param component is CoinReceptionComponent
+	 */
+	public PaymentLogDecorator(PaymentComponent component) {
+		super(component);
+	}
 	
 	/**
 	 * Commence receiving a series of Coins&#46;  To do this the Coin Receiver
 	 * instructs the Coin Input Box to become activated&#46;  It also updates the Total
 	 * Money Inserted Display on the Customer Panel.
 	 */
-	public void startReceiver();
+//	public void startReceiver() {
+//		logger.debug("start receiver.");
+//		super.startReceiver();
+//	}
 	
 	/**
 	 * When a coin is received the following will occur:
@@ -34,53 +53,62 @@ public interface CoinReceptionComponent {
 	 * </ol>
 	 * @param weight the weight of the coin received&#46;
 	 */
-	public void receiveCoin(double weight);
+	public void makePayment(String paymentInfo){
+		logger.debug("receive coin paymentInfo="+paymentInfo);
+		super.makePayment(paymentInfo);
+	}
 
 	/**
 	 * This method will activate the Coin Input Box so that further coins
 	 * can be received.
 	 */
-	public void continueReceive();
+	public void continueReceive(){
+		logger.debug("continue receive.");
+		super.continueReceive();
+	}
 	
 	/**
 	 * Instruct the Cash Store to update its totals and then re-set the Total
 	 * Money Inserted Display to zero.
 	 * @return return TRUE if cash has been stored, else return FALSE.
 	 */
-	public boolean storeCash();
+	public boolean storeCash(){
+		logger.debug("store cash.");
+		return super.storeCash();
+	}
 	
 	/**
 	 * This method will deactivate the Coin Input Box in order to stop 
 	 * receiving coins.
 	 */
-	public void stopReceive();
+	public void stopReceive() {
+		logger.debug("stop receive.");
+		super.stopReceive();
+	}
 	
 	/**
 	 * This method handles the refunding of Coins entered so far to 
 	 * the Customer.
 	 */
-	public void refundCash();
+	public void refundCash() {
+		logger.debug("refund cash.");
+		super.refundCash();
+	}
 	
 	/**
 	 * This method reset the coin received input.
 	 */
-	public void resetReceived();
+	public void resetReceived(){
+		logger.debug("reset received.");
+		super.resetReceived();
+	}
 	
 	/**
 	 * This method activates or deactivates the Coin Input Box.
 	 * @param active TRUE to activate, FALSE to deactivate the Coin Input Box.
 	 */
-	public void setActive(boolean active);
-
-	/**
-	 * This method sets the total money inserted.
-	 * @param totalInserted the total money inserted.
-	 */
-	public void setTotalInserted(int totalInserted);
-
-	/**
-	 * This method returns the total money inserted.
-	 * @return the total money inserted.
-	 */
-	public int getTotalInserted();
+	public void setActive(boolean active){
+		logger.debug("set active active="+active);
+		super.setActive(active);
+	}
 }

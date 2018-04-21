@@ -9,15 +9,14 @@ package sg.edu.nus.iss.vmcs.customer;
 
 /**
  * This control object is for handling the dispense drink use case.
- * @author Team SE16T5E
- * @version 1.0 2008-10-01
+ * @author SPLE Team04
  */
 public class DispenseControllerDecorator implements DispenseComponent {
     private DispenseComponent component;
 	
     /**
      * This constructor creates an instance of the object.
-     * @param txCtrl the Transaction Controller
+     * @param component the DispenseComponent
      */
     public DispenseControllerDecorator(DispenseComponent component){
     	this.component = component;
@@ -71,4 +70,4 @@ public class DispenseControllerDecorator implements DispenseComponent {
 	public boolean dispenseDrink(int selectedBrand){
 		return component.dispenseDrink(selectedBrand);
 	}
-}//End of class DispenseController
+}//End of class DispenseControllerDecorator

@@ -10,16 +10,15 @@ package sg.edu.nus.iss.vmcs.customer;
 import sg.edu.nus.iss.vmcs.log.VMCSLogger;
 
 /**
- * This control object is for handling the dispense drink use case.
- * @author Team SE16T5E
- * @version 1.0 2008-10-01
+ * This control object is for handling the dispense drink use case with audit trail.
+ * @author SPLE Team04
  */
 public class DispenseControllerLogDecorator extends DispenseControllerDecorator {
 	private VMCSLogger logger = new VMCSLogger();
 	
     /**
      * This constructor creates an instance of the object.
-     * @param txCtrl the Transaction Controller
+     * @param component the DispenseComponent
      */
     public DispenseControllerLogDecorator(DispenseComponent component){
     	super(component);
@@ -78,4 +77,4 @@ public class DispenseControllerLogDecorator extends DispenseControllerDecorator 
 		logger.debug("dispense drink selectedBrand="+selectedBrand);
 		return super.dispenseDrink(selectedBrand);
 	}
-}//End of class DispenseController
+}//End of class DispenseControllerLogDecorator

@@ -35,7 +35,7 @@ public class TransactionController {
 	private CustomerPanel custPanel;
 	private DispenseComponent dispenseCtrl;
 	private ChangeGiver changeGiver;
-	private CoinReceptionComponent coinReceiver;
+	private PaymentComponent paymentReceiver;
 
 	/**Set to TRUE when change is successfully issued during the transaction.*/
 	private boolean changeGiven=false;
@@ -55,9 +55,9 @@ public class TransactionController {
 		dispenseCtrl= (VariantPointConstants.vLogItemDispensing) 
 				? new DispenseControllerLogDecorator(new DispenseController(this))
 				: new DispenseControllerDecorator(new DispenseController(this));
-		coinReceiver = (VariantPointConstants.vLogPayment) 
-				? new CoinReceptionLogDecorator(new CoinReceiver(this))
-				: new CoinReceptionDecorator(new CoinReceiver(this));
+//		coinReceiver = (VariantPointConstants.vLogPayment) 
+//				? new CoinReceptionLogDecorator(new CoinReceiver(this))
+//				: new CoinReceptionDecorator(new CoinReceiver(this));
 		changeGiver=new ChangeGiver(this);
 	}
 
@@ -79,7 +79,12 @@ public class TransactionController {
 		dispenseCtrl.updateDrinkPanel();
 		dispenseCtrl.allowSelection(true);
 		changeGiver.displayChangeStatus();
-		coinReceiver.setActive(false);
+		if (VariantPointConstants.vCashPayment) {
+			custPanel.setCoinInputBoxActive(false);
+		}
+		if (VariantPointConstants.vCardPayment) {
+			custPanel.setCardDetectorActive(false);
+		}
 	}
 	
 	/**
@@ -108,8 +113,25 @@ public class TransactionController {
 		dispenseCtrl.ResetCan();
 		changeGiver.displayChangeStatus();
 		dispenseCtrl.allowSelection(false);
-		coinReceiver.startReceiver();
+		activatePaymentReceiver();
 		custPanel.setTerminateButtonActive(true);
+	}
+	
+	/**
+	 * Commence receiving a series of Coins&#46;  To do this the Coin Receiver
+	 * instructs the Coin Input Box to become activated&#46;  It also updates the Total
+	 * Money Inserted Display on the Customer Panel.
+	 */
+	public void activatePaymentReceiver(){
+		if (VariantPointConstants.vCashPayment) {
+			custPanel.setCoinInputBoxActive(true);
+			custPanel.setTotalMoneyInserted(0);
+		}
+		
+		if (VariantPointConstants.vCardPayment) {
+			custPanel.setCardDetectorActive(true);
+			custPanel.setTotalMoneyInserted(0);
+		}
 	}
 	
 	/**
@@ -126,10 +148,16 @@ public class TransactionController {
 	 * @param total the total money received&#46;
 	 */
 	public void processMoneyReceived(int total){
+		if (VariantPointConstants.vCardPayment) {
+			custPanel.setCardDetectorActive(false);
+		}
+		if (VariantPointConstants.vCashPayment) {
+			custPanel.setCoinInputBoxActive(false);
+		}
 		if(total>=price)
-			completeTransaction();
+			completeTransaction(total);
 		else{
-			coinReceiver.continueReceive();
+			paymentReceiver.continueReceive();
 		}
 	}
 	
@@ -146,10 +174,10 @@ public class TransactionController {
 	 * <br>
 	 * 4- Reset the Drink Selection Box to allow further transactions.
 	 */
-	public void completeTransaction(){
+	public void completeTransaction(int totalMoneyInserted){
 		System.out.println("CompleteTransaction: Begin");
 		dispenseCtrl.dispenseDrink(selection);
-		int totalMoneyInserted=coinReceiver.getTotalInserted();
+//		int totalMoneyInserted=coinReceiver.getTotalInserted();
 		int change=totalMoneyInserted-price;
 		if(change>0){
 			changeGiver.giveChange(change);
@@ -157,10 +185,14 @@ public class TransactionController {
 		else{
 			getCustomerPanel().setChange(0);
 		}
-		coinReceiver.storeCash();
+		paymentReceiver.storeCash();
 		dispenseCtrl.allowSelection(true);
 		
 		refreshMachineryDisplay();
+		paymentReceiver = null;
+		if(custPanel!=null){
+			custPanel.setTerminateButtonActive(false);
+		}
 		System.out.println("CompleteTransaction: End");
 	}
 	
@@ -173,8 +205,11 @@ public class TransactionController {
 	public void terminateFault(){
 		System.out.println("TerminateFault: Begin");
 		dispenseCtrl.allowSelection(false);
-		coinReceiver.refundCash();
+		if (paymentReceiver != null) {
+			paymentReceiver.refundCash();
+		}
 		refreshMachineryDisplay();
+		paymentReceiver = null;
 		System.out.println("TerminateFault: End");
 	}
 	
@@ -193,12 +228,21 @@ public class TransactionController {
 	public void terminateTransaction(){
 		System.out.println("TerminateTransaction: Begin");
 		dispenseCtrl.allowSelection(false);
-		coinReceiver.stopReceive();
-		coinReceiver.refundCash();
+		if (paymentReceiver != null) {
+			paymentReceiver.stopReceive();
+			paymentReceiver.refundCash();
+		}
 		if(custPanel!=null){
 			custPanel.setTerminateButtonActive(false);
+			if (VariantPointConstants.vCardPayment) {
+				custPanel.setCardDetectorActive(false);
+			}
+			if (VariantPointConstants.vCashPayment) {
+				custPanel.setCoinInputBoxActive(false);
+			}
 		}
 		refreshMachineryDisplay();
+		paymentReceiver = null;
 		System.out.println("TerminateTransaction: End");
 	}
 	
@@ -207,10 +251,22 @@ public class TransactionController {
 	 */
 	public void cancelTransaction(){
 		System.out.println("CancelTransaction: Begin");
-		coinReceiver.stopReceive();
-		coinReceiver.refundCash();
+		if (paymentReceiver != null) {
+			paymentReceiver.stopReceive();
+			paymentReceiver.refundCash();
+		}
+		if(custPanel!=null){
+			custPanel.setTerminateButtonActive(false);
+			if (VariantPointConstants.vCardPayment) {
+				custPanel.setCardDetectorActive(false);
+			}
+			if (VariantPointConstants.vCashPayment) {
+				custPanel.setCoinInputBoxActive(false);
+			}
+		}
 		dispenseCtrl.allowSelection(true);
 		refreshMachineryDisplay();
+		paymentReceiver = null;
 		System.out.println("CancelTransaction: End");
 	}
 	
@@ -330,8 +386,12 @@ public class TransactionController {
 	 * This method returns the CoinReceiver.
 	 * @return the CoinReceiver.
 	 */
-	public CoinReceptionComponent getCoinReceiver(){
-		return coinReceiver;
+	public PaymentComponent getPaymentReceiver(){
+		return paymentReceiver;
+	}
+	
+	public void setPaymentReceiver(PaymentComponent paymentReceiver) {
+		this.paymentReceiver = paymentReceiver;
 	}
 	
 	/**

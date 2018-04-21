@@ -9,6 +9,7 @@ package sg.edu.nus.iss.vmcs.customer;
 
 import java.util.ArrayList;
 
+import sg.edu.nus.iss.vmcs.VariantPointConstants;
 import sg.edu.nus.iss.vmcs.machinery.MachineryController;
 import sg.edu.nus.iss.vmcs.store.CashStore;
 import sg.edu.nus.iss.vmcs.store.Coin;
@@ -16,12 +17,14 @@ import sg.edu.nus.iss.vmcs.store.Store;
 import sg.edu.nus.iss.vmcs.util.VMCSException;
 
 /**
- * This control object manages the input and storage of Coins.
+ * This control object manages the coin receiver and storage.
  * @author Team SE16T5E
  * @version 1.0 2008-10-01
  */
-public class CoinReceiver implements CoinReceptionComponent {
+public class CoinReceiver implements PaymentController {
 	private TransactionController txCtrl;
+	
+	private final String msgInvalidCoin = "Invalid Coin";
 	
 	/**List of the Coins entered during the transaction.*/
 	private ArrayList arlCoins;
@@ -36,16 +39,6 @@ public class CoinReceiver implements CoinReceptionComponent {
 		this.txCtrl=txCtrl;
 		arlCoins=new ArrayList();
 		setTotalInserted(0);
-	}
-	
-	/**
-	 * Commence receiving a series of Coins&#46;  To do this the Coin Receiver
-	 * instructs the Coin Input Box to become activated&#46;  It also updates the Total
-	 * Money Inserted Display on the Customer Panel.
-	 */
-	public void startReceiver(){
-		txCtrl.getCustomerPanel().setCoinInputBoxActive(true);
-		txCtrl.getCustomerPanel().setTotalMoneyInserted(0);
 	}
 	
 	/**
@@ -70,20 +63,20 @@ public class CoinReceiver implements CoinReceptionComponent {
 	 * transaction based on the money received&#46;
 	 * </li>
 	 * </ol>
-	 * @param weight the weight of the coin received&#46;
+	 * @param paymentInfo the weight of the coin received&#46;
 	 */
-	public void receiveCoin(double weight){
+	public void makePayment(String paymentInfo){
+		double weight = Double.parseDouble(paymentInfo);
 		CashStore cashStore=(CashStore)txCtrl.getMainController().getStoreController().getStore(Store.CASH);
 		Coin coin=cashStore.findCoin(weight);
 		if(coin==null){
-			txCtrl.getCustomerPanel().displayInvalidCoin(true);
+			txCtrl.getCustomerPanel().displayInvalidCoin(msgInvalidCoin);
 			txCtrl.getCustomerPanel().setChange("Invalid Coin");
 			//txCtrl.getCustomerPanel().setCoinInputBoxActive(false);
 		}
 		else{
-			txCtrl.getCustomerPanel().setCoinInputBoxActive(false);
 			int value=coin.getValue();
-			txCtrl.getCustomerPanel().displayInvalidCoin(false);
+			txCtrl.getCustomerPanel().hideInvalidCoin();
 			arlCoins.add(coin);
 			setTotalInserted(getTotalInserted() + value);
 			//int total=txCtrl.getCustomerPanel().addMoney(value);
@@ -99,6 +92,9 @@ public class CoinReceiver implements CoinReceptionComponent {
 	 */
 	public void continueReceive(){
 		txCtrl.getCustomerPanel().setCoinInputBoxActive(true);
+		if (VariantPointConstants.vCardPayment) {
+			txCtrl.getCustomerPanel().setCardDetectorActive(false);
+		}
 	}
 	
 	/**
@@ -133,6 +129,9 @@ public class CoinReceiver implements CoinReceptionComponent {
 			return;
 		}
 		custPanel.setCoinInputBoxActive(false);
+		if (VariantPointConstants.vCardPayment) {
+			custPanel.setCardDetectorActive(false);
+		}
 	}
 	
 	/**
@@ -144,7 +143,10 @@ public class CoinReceiver implements CoinReceptionComponent {
 			return;
 		txCtrl.getCustomerPanel().setChange(getTotalInserted());
 		txCtrl.getCustomerPanel().setTotalMoneyInserted(0);
-		txCtrl.getCustomerPanel().displayInvalidCoin(false);
+		txCtrl.getCustomerPanel().hideInvalidCoin();
+		if (VariantPointConstants.vCardPayment) {
+			txCtrl.getCustomerPanel().setCardDetectorActive(false);
+		}
 		resetReceived();
 	}
 	
@@ -162,6 +164,9 @@ public class CoinReceiver implements CoinReceptionComponent {
 	 */
 	public void setActive(boolean active){
 		txCtrl.getCustomerPanel().setCoinInputBoxActive(active); 
+		if (VariantPointConstants.vCardPayment) {
+			txCtrl.getCustomerPanel().setCardDetectorActive(false);
+		}
 	}
 
 	/**

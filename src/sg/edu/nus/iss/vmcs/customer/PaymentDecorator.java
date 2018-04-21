@@ -1,10 +1,19 @@
 package sg.edu.nus.iss.vmcs.customer;
 
-public class CoinReceptionDecorator implements CoinReceptionComponent {
+/**
+ * This class is used for handling coin reception.
+ * @author SPLE Team 04
+ *
+ */
+public class PaymentDecorator implements PaymentComponent {
 	
-	private CoinReceptionComponent component;
+	private PaymentComponent component;
 	
-	public CoinReceptionDecorator(CoinReceptionComponent component) {
+	/**
+	 * Constructor to create object.
+	 * @param component is CoinReceptionComponent
+	 */
+	public PaymentDecorator(PaymentComponent component) {
 		this.component = component;
 	}
 	
@@ -13,9 +22,9 @@ public class CoinReceptionDecorator implements CoinReceptionComponent {
 	 * instructs the Coin Input Box to become activated&#46;  It also updates the Total
 	 * Money Inserted Display on the Customer Panel.
 	 */
-	public void startReceiver() {
-		component.startReceiver();
-	}
+//	public void startReceiver() {
+//		component.startReceiver();
+//	}
 	
 	/**
 	 * When a coin is received the following will occur:
@@ -41,8 +50,8 @@ public class CoinReceptionDecorator implements CoinReceptionComponent {
 	 * </ol>
 	 * @param weight the weight of the coin received&#46;
 	 */
-	public void receiveCoin(double weight){
-		component.receiveCoin(weight);
+	public void makePayment(String paymentInfo){
+		component.makePayment(paymentInfo);
 	}
 
 	/**
@@ -91,21 +100,5 @@ public class CoinReceptionDecorator implements CoinReceptionComponent {
 	 */
 	public void setActive(boolean active){
 		component.setActive(active);
-	}
-
-	/**
-	 * This method sets the total money inserted.
-	 * @param totalInserted the total money inserted.
-	 */
-	public void setTotalInserted(int totalInserted){
-		component.setTotalInserted(totalInserted);
-	}
-
-	/**
-	 * This method returns the total money inserted.
-	 * @return the total money inserted.
-	 */
-	public int getTotalInserted(){
-		return component.getTotalInserted();
 	}
 }
