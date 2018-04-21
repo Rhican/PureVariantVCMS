@@ -17,6 +17,7 @@ package sg.edu.nus.iss.vmcs.customer;
 
 import java.awt.Frame;
 
+import sg.edu.nus.iss.vmcs.VariantPointConstants;
 import sg.edu.nus.iss.vmcs.store.DrinksBrand;
 import sg.edu.nus.iss.vmcs.store.Store;
 import sg.edu.nus.iss.vmcs.store.StoreItem;
@@ -30,8 +31,6 @@ import sg.edu.nus.iss.vmcs.system.SimulatorControlPanel;
  * @version 1.0 2008-10-01
  */
 public class TransactionController {
-	private static boolean logItemDispensing = true;
-	private static boolean logPayment = true;
 	private MainController mainCtrl;
 	private CustomerPanel custPanel;
 	private DispenseComponent dispenseCtrl;
@@ -53,10 +52,10 @@ public class TransactionController {
 	 */
 	public TransactionController(MainController mainCtrl) {
 		this.mainCtrl = mainCtrl;
-		dispenseCtrl= (logItemDispensing) 
+		dispenseCtrl= (VariantPointConstants.vLogItemDispensing) 
 				? new DispenseControllerLogDecorator(new DispenseController(this))
 				: new DispenseControllerDecorator(new DispenseController(this));
-		coinReceiver = (logPayment) 
+		coinReceiver = (VariantPointConstants.vLogPayment) 
 				? new CoinReceptionLogDecorator(new CoinReceiver(this))
 				: new CoinReceptionDecorator(new CoinReceiver(this));
 		changeGiver=new ChangeGiver(this);
