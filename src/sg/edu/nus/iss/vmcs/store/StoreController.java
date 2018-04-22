@@ -348,7 +348,7 @@ public class StoreController {
 		int size = sStore().getStoreSize();
 		snacksLoader.setNumOfItems(size);
 		for (int i = 0; i < size; i++) {
-			snacksLoader.setItem(i, dStore().getStoreItem(i));
+			snacksLoader.setItem(i, sStore().getStoreItem(i));
 		}
 		snacksLoader.saveProperty();
 	}
