@@ -16,6 +16,8 @@ import sg.edu.nus.iss.vmcs.VariantPointConstants;
 public class CardPayment implements PaymentController {
 	private TransactionController txCtrl;
 	
+	private boolean isPaymentSuccess;
+	
 	/**
 	 * This constructor creates an instance of the object.
 	 * @param txCtrl the transaction controller.
@@ -30,7 +32,7 @@ public class CardPayment implements PaymentController {
 	}
 	
 	public void makePayment(String payInfo){
-		boolean isPaymentSuccess  = txCtrl.getMainController().getCardPaymentCtrl().makePaymentTransaction(txCtrl.getPrice(), payInfo);
+		isPaymentSuccess = new CardPaymentController().makePaymentTransaction(txCtrl.getPrice(), payInfo);
 		if(!isPaymentSuccess){
 			txCtrl.getCustomerPanel().displayInvalidCoin("Payment Unsuccessful");
 			txCtrl.getCustomerPanel().setChange("");
@@ -79,5 +81,13 @@ public class CardPayment implements PaymentController {
 		if (VariantPointConstants.vCashPayment) {
 			txCtrl.getCustomerPanel().setCoinInputBoxActive(!active);
 		}
+	}
+
+	public boolean isPaymentSuccess() {
+		return isPaymentSuccess;
+	}
+
+	public void setPaymentSuccess(boolean isPaymentSuccess) {
+		this.isPaymentSuccess = isPaymentSuccess;
 	}
 }

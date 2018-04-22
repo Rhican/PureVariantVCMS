@@ -2,7 +2,6 @@ package sg.edu.nus.iss.vmcs.store;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -19,7 +18,13 @@ import sg.edu.nus.iss.vmcs.maintenance.MaintenanceController;
 import sg.edu.nus.iss.vmcs.system.Environment;
 import sg.edu.nus.iss.vmcs.system.MainController;
 import sg.edu.nus.iss.vmcs.system.SimulationController;
+import sg.edu.nus.iss.vmcs.util.VMCSConstants;
 
+/**
+ * Test class for Give change strategy.
+ * @author SPLE Team 04
+ *
+ */
 public class ChangeGiverTest extends TestCase {
 	@Mock
 	CustomerPanel custPanel;
@@ -45,9 +50,9 @@ public class ChangeGiverTest extends TestCase {
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		mainCtrl = new MainController(simulatorCtrl, machineryCtrl, maintenanceCtrl, txCtrl, storeCtrl, cardPaymentCtrl,
-				"C:\\Workspace\\VMCS_OOAD\\vmcs.properties");
-		Environment.initialize("C:\\Workspace\\VMCS_OOAD\\vmcs.properties");
+		mainCtrl = new MainController(simulatorCtrl, machineryCtrl, maintenanceCtrl, txCtrl
+										, storeCtrl, VMCSConstants.PROP_VMCS);
+		Environment.initialize(VMCSConstants.PROP_VMCS);
 		txCtrl = new TransactionController(mainCtrl, custPanel, dispenseCtrl, cg, paymentReceiver);
 		cg = new ChangeGiver(txCtrl);
 	}
@@ -56,13 +61,13 @@ public class ChangeGiverTest extends TestCase {
 	public void testLargerNoDenoGiveChange() {
 		VariantPointConstants.vLargerNoDenoGiveChange = true;
 		assertTrue(cg.giveChange(50));
-		assertTrue(true);
+		assertTrue(cg.giveChange(0));
 	}
 
 	@Test
 	public void testBalanceNoDenoGiveChange() {
 		VariantPointConstants.vLargerNoDenoGiveChange = false;
 		assertTrue(cg.giveChange(50));
-		assertTrue(true);
+		assertTrue(cg.giveChange(0));
 	}
 }
