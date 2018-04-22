@@ -21,7 +21,7 @@ import sg.edu.nus.iss.vmcs.util.VMCSException;
  * @author Team SE16T5E
  * @version 1.0 2008-10-01
  */
-public class DispenseController {
+public class DispenseController implements DispenseComponent {
     private TransactionController txCtrl;
     private int selection=0;
 	

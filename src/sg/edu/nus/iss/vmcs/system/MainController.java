@@ -9,6 +9,7 @@ package sg.edu.nus.iss.vmcs.system;
 
 import java.io.IOException;
 
+import sg.edu.nus.iss.vmcs.customer.CardPaymentController;
 import sg.edu.nus.iss.vmcs.customer.TransactionController;
 import sg.edu.nus.iss.vmcs.machinery.MachineryController;
 import sg.edu.nus.iss.vmcs.maintenance.MaintenanceController;
@@ -27,6 +28,7 @@ public class MainController {
 	private MaintenanceController maintenanceCtrl;
 	private TransactionController txCtrl;
 	private StoreController       storeCtrl;
+	private CardPaymentController cardPaymentCtrl;
 
 	private String      propertyFile;
 
@@ -66,6 +68,7 @@ public class MainController {
 			cashLoader.initialize();
 			storeCtrl = new StoreController(cashLoader, new StoreLoaderStrategy());
 			storeCtrl.initialize();
+			cardPaymentCtrl = new CardPaymentController();
 			simulatorCtrl = new SimulationController(this);
 			machineryCtrl = new MachineryController(this);
 			machineryCtrl.initialize();
@@ -100,6 +103,10 @@ public class MainController {
 	 */
 	public StoreController getStoreController() {
 		return storeCtrl;
+	}
+	
+	public CardPaymentController getCardPaymentCtrl() {
+		return cardPaymentCtrl;
 	}
 
 	/**

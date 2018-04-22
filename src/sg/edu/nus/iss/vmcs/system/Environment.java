@@ -27,6 +27,7 @@ public class Environment {
 	public final static String CASH_PROP_FILE = "cashFile";
 	/**This constant attribute denotes the password string*/
 	public final static String PASSWORD = "password";
+	private static final String PROP_MIN_BALANCE_DENO = "MinBalanceDenomination";
 
 	private static Properties prop;
 
@@ -81,5 +82,12 @@ public class Environment {
 	 */
 	public static String getPassword() {
 		return prop.getProperty(PASSWORD);
+	}
+	
+	public static int getMinBalanceDenomination() {
+		String nm = prop.getProperty(PROP_MIN_BALANCE_DENO);
+		int nmi;
+		nmi = Integer.parseInt(nm);
+		return nmi;
 	}
 }//End of class Environment

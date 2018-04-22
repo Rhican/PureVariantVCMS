@@ -1,0 +1,14 @@
+2018-04-22 21:18:41 DEBUG vmcs - update drink panel.
+2018-04-22 21:18:41 DEBUG vmcs - allow selection allow=true
+2018-04-22 21:20:33 DEBUG vmcs - update drink panel.
+2018-04-22 21:20:33 DEBUG vmcs - allow selection allow=true
+2018-04-22 21:20:38 DEBUG vmcs - reset can
+2018-04-22 21:20:38 DEBUG vmcs - allow selection allow=false
+2018-04-22 21:20:38 DEBUG vmcs - receive coin paymentInfo=42.2
+2018-04-22 21:20:38 DEBUG vmcs - continue receive.
+2018-04-22 21:20:39 DEBUG vmcs - receive coin paymentInfo=42.2
+2018-04-22 21:20:39 DEBUG vmcs - continue receive.
+2018-04-22 21:20:40 DEBUG vmcs - receive coin paymentInfo=42.2
+2018-04-22 21:20:40 DEBUG vmcs - store cash.
+2018-04-22 21:20:40 DEBUG vmcs - allow selection allow=true
+2018-04-22 21:20:50 DEBUG vmcs - allow selection allow=false

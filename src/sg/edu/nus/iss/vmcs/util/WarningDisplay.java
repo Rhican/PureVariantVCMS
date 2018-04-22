@@ -86,4 +86,8 @@ public class WarningDisplay extends Panel {
 			lb.setBackground(offBg);
 		}
 	}
+	
+	public void setLabel(String label) {
+		lb.setText(label);
+	}
 }//End of class WarningDisplay
