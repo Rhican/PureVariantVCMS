@@ -12,7 +12,6 @@ import sg.edu.nus.iss.vmcs.VariantPointConstants;
 /**
  * This control object manages the card payment.
  * @author SPLE Team 04
- * @version 1.0 2008-10-01
  */
 public class CardPayment implements PaymentController {
 	private TransactionController txCtrl;

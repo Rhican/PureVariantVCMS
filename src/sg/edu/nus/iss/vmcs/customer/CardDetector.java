@@ -16,6 +16,11 @@ import java.awt.event.WindowListener;
 
 import sg.edu.nus.iss.vmcs.VariantPointConstants;
 
+/**
+ * This class is used for detecting card payment.
+ * @author SPLE Team04
+ *
+ */
 public class CardDetector extends Panel implements WindowListener,ActionListener {
 	/**
 	 * 

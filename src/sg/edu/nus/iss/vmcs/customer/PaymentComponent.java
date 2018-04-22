@@ -2,7 +2,7 @@ package sg.edu.nus.iss.vmcs.customer;
 
 /**
  * This class is use for coin reception.
- * @author SPLE Team 06
+ * @author SPLE Team 04
  *
  */
 public interface PaymentComponent {

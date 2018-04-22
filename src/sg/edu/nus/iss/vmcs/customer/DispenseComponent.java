@@ -9,8 +9,7 @@ package sg.edu.nus.iss.vmcs.customer;
 
 /**
  * This control object is for handling the dispense drink use case.
- * @author Team SE16T5E
- * @version 1.0 2008-10-01
+ * @author SPLE Team 04
  */
 public interface DispenseComponent {
 	/**

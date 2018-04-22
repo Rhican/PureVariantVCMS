@@ -1,0 +1,8 @@
+/classes/*
+/docs/*
+/classes/
+./.classpath
+./CashPropertyFile.txt
+./DrinkPropertyFile.txt
+./SnackPropertyFile.txt
+./vmcs.log

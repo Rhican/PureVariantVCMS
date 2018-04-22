@@ -31,6 +31,18 @@ public class MainController {
 	private CardPaymentController cardPaymentCtrl;
 
 	private String      propertyFile;
+	
+	public MainController(SimulationController simulatorCtrl, MachineryController machineryCtrl,
+			MaintenanceController maintenanceCtrl, TransactionController txCtrl, StoreController storeCtrl,
+			CardPaymentController cardPaymentCtrl, String propertyFile) {
+		this.simulatorCtrl = simulatorCtrl;
+		this.machineryCtrl = machineryCtrl;
+		this.maintenanceCtrl = maintenanceCtrl;
+		this.txCtrl = txCtrl;
+		this.storeCtrl = storeCtrl;
+		this.cardPaymentCtrl = cardPaymentCtrl;
+		this.propertyFile = propertyFile;
+	}
 
 	/**
 	 * This constructor creates an instance of MainController object.

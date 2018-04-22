@@ -23,6 +23,7 @@ public class AllTests {
 		  suite.addTestSuite(StoreControllerTest.class);
 		  suite.addTestSuite(StoreItemTest.class);
 		  suite.addTestSuite(StoreObjectTest.class);
+		  suite.addTestSuite(ChangeGiverTest.class);
 		  return suite;
 	}
 }//End of class AllTests

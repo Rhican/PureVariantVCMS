@@ -8,9 +8,8 @@
 package sg.edu.nus.iss.vmcs.customer;
 
 /**
- * This control object manages the input and storage of Coins.
- * @author Team SE16T5E
- * @version 1.0 2008-10-01
+ * This control object manages payment.
+ * @author SPLE Team 04
  */
 public interface PaymentController extends PaymentComponent {
 }

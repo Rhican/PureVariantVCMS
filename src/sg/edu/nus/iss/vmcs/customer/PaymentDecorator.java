@@ -1,7 +1,7 @@
 package sg.edu.nus.iss.vmcs.customer;
 
 /**
- * This class is used for handling coin reception.
+ * This class is used for handling payment without log.
  * @author SPLE Team 04
  *
  */
@@ -11,7 +11,7 @@ public class PaymentDecorator implements PaymentComponent {
 	
 	/**
 	 * Constructor to create object.
-	 * @param component is CoinReceptionComponent
+	 * @param component is PaymentComponent
 	 */
 	public PaymentDecorator(PaymentComponent component) {
 		this.component = component;

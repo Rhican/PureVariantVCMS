@@ -3,7 +3,7 @@ package sg.edu.nus.iss.vmcs.customer;
 import sg.edu.nus.iss.vmcs.log.VMCSLogger;
 
 /**
- * This class is used for coin reception with audit trail.
+ * This class is used for handling payment with log.
  * @author SPLE Team 04
  *
  */

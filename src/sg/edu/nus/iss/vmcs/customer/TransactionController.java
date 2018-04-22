@@ -47,6 +47,15 @@ public class TransactionController {
 	/**Identifier of the selected drink/snack.*/
 	private int selection=-1, selectedType = Store.DRINK;
 	
+	public TransactionController(MainController mainCtrl, CustomerPanel custPanel
+			, DispenseComponent dispenseCtrl, ChangeGiver changeGiver, PaymentComponent paymentReceiver) {
+		this.mainCtrl = mainCtrl;
+		this.custPanel = custPanel;
+		this.dispenseCtrl = dispenseCtrl;
+		this.changeGiver = changeGiver;
+		this.paymentReceiver = paymentReceiver;
+	}
+		
 	/**
 	 * This constructor creates an instance of the TransactionController.
 	 * @param mainCtrl the MainController.

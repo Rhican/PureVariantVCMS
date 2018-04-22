@@ -20,7 +20,7 @@ public class VariantPointConstants {
 	
 	// For larger number denomination give change variable point. 
 	// If false, it will be balance number of denomination change giver.
-	public static boolean vLargerNoDenoGiveChange = false;
+	public static boolean vLargerNoDenoGiveChange = true;
 
 	// For Display "Low Stock" variable point.
 	public static boolean vShowLowStock = true;
