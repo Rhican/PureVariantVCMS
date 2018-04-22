@@ -35,12 +35,12 @@ public class CoinInputListener implements ActionListener{
 	 */
 	public void actionPerformed(ActionEvent ev){
 		CoinButton coinButton=(CoinButton)ev.getSource();
-		if (txController.getPaymentReceiver() == null) {
-			txController.setPaymentReceiver(
+		if (txController.getPaymentDecorator() == null) {
+			txController.setPaymentDecorator(
 					VariantPointConstants.vLogPayment
 						? new PaymentLogDecorator(new CoinReceiver(txController))
 						: new PaymentDecorator(new CoinReceiver(txController)));
 		}
-		txController.getPaymentReceiver().makePayment(String.valueOf(coinButton.getWeight()));
+		txController.getPaymentDecorator().makePayment(String.valueOf(coinButton.getWeight()));
 	}
 }//End of class CoinInputListener

@@ -36,7 +36,7 @@ public class TransactionController {
 	private CustomerPanel custPanel;
 	private DispenseComponent dispenseCtrl;
 	private ChangeGiver changeGiver;
-	private PaymentComponent paymentReceiver;
+	private PaymentDecorator paymentDecorator;
 
 	/**Set to TRUE when change is successfully issued during the transaction.*/
 	private boolean changeGiven=false;
@@ -48,12 +48,12 @@ public class TransactionController {
 	private int selection=-1, selectedType = Store.DRINK;
 	
 	public TransactionController(MainController mainCtrl, CustomerPanel custPanel
-			, DispenseComponent dispenseCtrl, ChangeGiver changeGiver, PaymentComponent paymentReceiver) {
+			, DispenseComponent dispenseCtrl, ChangeGiver changeGiver, PaymentDecorator paymentDecorator) {
 		this.mainCtrl = mainCtrl;
 		this.custPanel = custPanel;
 		this.dispenseCtrl = dispenseCtrl;
 		this.changeGiver = changeGiver;
-		this.paymentReceiver = paymentReceiver;
+		this.paymentDecorator = paymentDecorator;
 	}
 		
 	/**
@@ -179,7 +179,7 @@ public class TransactionController {
 		if(total>=price)
 			completeTransaction(total);
 		else{
-			paymentReceiver.continueReceive();
+			paymentDecorator.continueReceive();
 		}
 	}
 	
@@ -211,11 +211,11 @@ public class TransactionController {
 		else{
 			getCustomerPanel().setChange(0);
 		}
-		paymentReceiver.storeCash();
+		paymentDecorator.storeCash();
 		dispenseCtrl.allowSelection(true);
 		
 		refreshMachineryDisplay();
-		paymentReceiver = null;
+		paymentDecorator = null;
 		if(custPanel!=null){
 			custPanel.setTerminateButtonActive(false);
 		}
@@ -231,11 +231,11 @@ public class TransactionController {
 	public void terminateFault(){
 		System.out.println("TerminateFault: Begin");
 		dispenseCtrl.allowSelection(false);
-		if (paymentReceiver != null) {
-			paymentReceiver.refundCash();
+		if (paymentDecorator != null) {
+			paymentDecorator.refundCash();
 		}
 		refreshMachineryDisplay();
-		paymentReceiver = null;
+		paymentDecorator = null;
 		System.out.println("TerminateFault: End");
 	}
 	
@@ -254,9 +254,9 @@ public class TransactionController {
 	public void terminateTransaction(){
 		System.out.println("TerminateTransaction: Begin");
 		dispenseCtrl.allowSelection(false);
-		if (paymentReceiver != null) {
-			paymentReceiver.stopReceive();
-			paymentReceiver.refundCash();
+		if (paymentDecorator != null) {
+			paymentDecorator.stopReceive();
+			paymentDecorator.refundCash();
 		}
 		if(custPanel!=null){
 			custPanel.setTerminateButtonActive(false);
@@ -268,7 +268,7 @@ public class TransactionController {
 			}
 		}
 		refreshMachineryDisplay();
-		paymentReceiver = null;
+		paymentDecorator = null;
 		System.out.println("TerminateTransaction: End");
 	}
 	
@@ -277,9 +277,9 @@ public class TransactionController {
 	 */
 	public void cancelTransaction(){
 		System.out.println("CancelTransaction: Begin");
-		if (paymentReceiver != null) {
-			paymentReceiver.stopReceive();
-			paymentReceiver.refundCash();
+		if (paymentDecorator != null) {
+			paymentDecorator.stopReceive();
+			paymentDecorator.refundCash();
 		}
 		if(custPanel!=null){
 			custPanel.setTerminateButtonActive(false);
@@ -292,7 +292,7 @@ public class TransactionController {
 		}
 		dispenseCtrl.allowSelection(true);
 		refreshMachineryDisplay();
-		paymentReceiver = null;
+		paymentDecorator = null;
 		System.out.println("CancelTransaction: End");
 	}
 	
@@ -412,12 +412,12 @@ public class TransactionController {
 	 * This method returns the CoinReceiver.
 	 * @return the CoinReceiver.
 	 */
-	public PaymentComponent getPaymentReceiver(){
-		return paymentReceiver;
+	public PaymentDecorator getPaymentDecorator(){
+		return paymentDecorator;
 	}
 	
-	public void setPaymentReceiver(PaymentComponent paymentReceiver) {
-		this.paymentReceiver = paymentReceiver;
+	public void setPaymentDecorator(PaymentDecorator paymentDecorator) {
+		this.paymentDecorator = paymentDecorator;
 	}
 	
 	/**

@@ -11,11 +11,10 @@ import sg.edu.nus.iss.vmcs.customer.CardPaymentController;
 import sg.edu.nus.iss.vmcs.customer.ChangeGiver;
 import sg.edu.nus.iss.vmcs.customer.CustomerPanel;
 import sg.edu.nus.iss.vmcs.customer.DispenseComponent;
-import sg.edu.nus.iss.vmcs.customer.PaymentComponent;
+import sg.edu.nus.iss.vmcs.customer.PaymentDecorator;
 import sg.edu.nus.iss.vmcs.customer.TransactionController;
 import sg.edu.nus.iss.vmcs.machinery.MachineryController;
 import sg.edu.nus.iss.vmcs.maintenance.MaintenanceController;
-import sg.edu.nus.iss.vmcs.system.Environment;
 import sg.edu.nus.iss.vmcs.system.MainController;
 import sg.edu.nus.iss.vmcs.system.SimulationController;
 import sg.edu.nus.iss.vmcs.util.VMCSConstants;
@@ -31,7 +30,7 @@ public class ChangeGiverTest extends TestCase {
 	@Mock
 	DispenseComponent dispenseCtrl;
 	@Mock
-	PaymentComponent paymentReceiver;
+	PaymentDecorator paymentDecorator;
 	@Mock
 	SimulationController simulatorCtrl;
 	@Mock
@@ -51,9 +50,9 @@ public class ChangeGiverTest extends TestCase {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		mainCtrl = new MainController(simulatorCtrl, machineryCtrl, maintenanceCtrl, txCtrl
-										, storeCtrl, VMCSConstants.PROP_VMCS);
-		Environment.initialize(VMCSConstants.PROP_VMCS);
-		txCtrl = new TransactionController(mainCtrl, custPanel, dispenseCtrl, cg, paymentReceiver);
+				, storeCtrl, VMCSConstants.PROP_VMCS);
+		mainCtrl.initialize();
+		txCtrl = new TransactionController(mainCtrl, custPanel, dispenseCtrl, cg, paymentDecorator);
 		cg = new ChangeGiver(txCtrl);
 	}
 

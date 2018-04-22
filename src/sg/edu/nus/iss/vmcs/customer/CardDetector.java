@@ -56,13 +56,13 @@ public class CardDetector extends Panel implements WindowListener,ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (txCtrl.getPaymentReceiver() == null) {
-			txCtrl.setPaymentReceiver(
+		if (txCtrl.getPaymentDecorator() == null) {
+			txCtrl.setPaymentDecorator(
 					VariantPointConstants.vLogPayment
 						? new PaymentLogDecorator(new CardPayment(txCtrl))
 						: new PaymentDecorator(new CardPayment(txCtrl)));
 		}
-		txCtrl.getPaymentReceiver().makePayment("Dummy EZ Link Info");
+		txCtrl.getPaymentDecorator().makePayment("Dummy EZ Link Info");
 	}
 
 	@Override
