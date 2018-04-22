@@ -20,6 +20,9 @@ public class AllTests {
 		  suite.addTestSuite(DrinksBrandTest.class);
 		  suite.addTestSuite(DrinksStoreItemTest.class);
 		  suite.addTestSuite(DrinksStoreTest.class);
+		  suite.addTestSuite(SnacksBrandTest.class);
+		  suite.addTestSuite(SnacksStoreItemTest.class);
+		  suite.addTestSuite(SnacksStoreTest.class);
 		  suite.addTestSuite(StoreControllerTest.class);
 		  suite.addTestSuite(StoreItemTest.class);
 		  suite.addTestSuite(StoreObjectTest.class);
