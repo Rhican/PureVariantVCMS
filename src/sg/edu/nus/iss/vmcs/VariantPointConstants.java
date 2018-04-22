@@ -12,11 +12,15 @@ public class VariantPointConstants {
 	// For log payment variable point.
 	public static boolean vLogPayment = true;
 	
-	// For log payment variable point.
+	// For cash payment variable point.
 	public static boolean vCashPayment = true;
 	
-	// For log payment variable point.
+	// For card payment variable point.
 	public static boolean vCardPayment = true;
+	
+	// For larger number denomination give change variable point. 
+	// If false, it will be balance number of denomination change giver.
+	public static boolean vLargerNoDenoGiveChange = false;
 
 	// For Product-Store variable point.
 	// -- Disabled, this variant point will use method level control

@@ -48,35 +48,7 @@ public class ChangeGiver {
 	 * @return return TRUE if give change use case success, otherwise, return FALSE.
 	 */
 	public boolean giveChange(int changeRequired){
-		if(changeRequired==0)
-			return true;
-		try{
-			int changeBal=changeRequired;
-			MainController mainCtrl=txCtrl.getMainController();
-			StoreController storeCtrl=mainCtrl.getStoreController();
-			int cashStoreSize=storeCtrl.getStoreSize(Store.CASH); 
-			for(int i=cashStoreSize-1;i>=0;i--){
-				StoreItem cashStoreItem=storeCtrl.getStore(Store.CASH).getStoreItem(i);
-				int quantity=cashStoreItem.getQuantity();
-				Coin coin=(Coin)cashStoreItem.getContent();
-				int value=coin.getValue();
-				int quantityRequired=0;
-				while(changeBal>0&&changeBal>=value&&quantity>0){
-					changeBal-=value;
-					quantityRequired++;
-					quantity--;
-				}
-				txCtrl.getMainController().getMachineryController().giveChange(i,quantityRequired);
-			}
-			txCtrl.getCustomerPanel().setChange(changeRequired-changeBal);
-			if(changeBal>0)
-				txCtrl.getCustomerPanel().displayChangeStatus(true);
-		}
-		catch(VMCSException ex){
-			txCtrl.terminateFault();
-			return false;
-		}
-		return true;
+		return ChangeGiverFactory.createChangeGiver(txCtrl).giveChange(changeRequired);
 	}
 	
 	/**
