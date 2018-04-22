@@ -9,7 +9,8 @@ import org.junit.Test;
 import sg.edu.nus.iss.vmcs.system.MainController;
 
 public class DrinksStoreItemTest extends TestCase{
-	private String propertyFilename=System.getProperty("propertyFilename");
+	//private String propertyFilename=System.getProperty("propertyFilename");
+	private String propertyFilename= "vmcs.properties";
 	
 	@Before
 	public void setup() throws Exception{
