@@ -22,6 +22,9 @@ public class VariantPointConstants {
 	// If false, it will be balance number of denomination change giver.
 	public static boolean vLargerNoDenoGiveChange = false;
 
+	// For Display "Low Stock" variable point.
+	public static boolean vShowLowStock = true;
+		
 	// For Product-Store variable point.
 	// -- Disabled, this variant point will use method level control
 //	public static boolean vDrinkStore = true;

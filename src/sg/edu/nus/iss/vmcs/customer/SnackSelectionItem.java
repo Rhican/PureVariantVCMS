@@ -17,6 +17,7 @@ import java.awt.Label;
 import java.awt.Panel;
 import java.awt.event.ActionListener;
 
+import sg.edu.nus.iss.vmcs.VariantPointConstants;
 import sg.edu.nus.iss.vmcs.util.WarningDisplay;
 
 /**
@@ -28,7 +29,11 @@ import sg.edu.nus.iss.vmcs.util.WarningDisplay;
 public class SnackSelectionItem extends Panel{
 	private Button btn=new Button("");
 	private Label lbl=new Label();
-	private WarningDisplay wnd=new WarningDisplay("Not in Stock");
+	private static final String WarningText =  "Not in Stock";
+	private static final String LowStockText = "Low Stock   ";
+	private static final String NormalText =   "Available     ";
+	private static final int LowStockThreshold = 3;
+	private WarningDisplay wnd=new WarningDisplay(WarningText);
 	
 	private int snackIdentifier=-1;
 	private String name="";
@@ -172,6 +177,11 @@ public class SnackSelectionItem extends Panel{
 		btn.setEnabled(!isOn);
 		btn.setBackground(this.getBackground());
 		wnd.setState(isOn);
+		if (isOn)
+			wnd.setLabel(WarningText);
+		else 
+			wnd.setLabel((VariantPointConstants.vShowLowStock && quantity <= LowStockThreshold) 
+					? LowStockText : NormalText);
 	}
 	
 	/**
