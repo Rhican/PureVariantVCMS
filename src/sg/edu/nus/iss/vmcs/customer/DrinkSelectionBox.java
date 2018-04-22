@@ -31,6 +31,11 @@ public class DrinkSelectionBox extends Panel{
 	
 	/**Array of integers providing identifiers for each selection button.*/
 	
+	
+	public int Count() {
+		return drinkSelectionItems.length;
+	}
+
 	/**
 	 * This constructor creates an instance of the object.
 	 * @param txCtrl the Transaction Controller

@@ -8,6 +8,13 @@
 package sg.edu.nus.iss.vmcs.store;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import sg.edu.nus.iss.vmcs.system.FilePropertyLoader;
+import sg.edu.nus.iss.vmcs.system.StoreLoaderStrategy;
+import sg.edu.nus.iss.vmcs.system.StoreLoaderStrategy.StoreSaleItemType;
 
 /**
  * This control object manages changes in CashStore attributes and 
@@ -24,25 +31,42 @@ import java.io.IOException;
  * @see StoreObject
  * 
  * @version 3.0 5/07/2003
- * @author Olivo Miotto, Pang Ping Li
+ * @author Olivo Miotto, Pang Ping Li, Zehua
  */
 public class StoreController {
-	private CashStore cStore;
-	private DrinksStore dStore;
+	private static Map<Integer, Store> stores= new HashMap<Integer, Store>();
+	
+	private CashStore cStore() 
+	{
+		return (CashStore) stores.get(Store.CASH);
+	};
+	
+	private DrinksStore dStore() 
+	{
+		return (DrinksStore) stores.get(Store.DRINK);
+	};
+	
+	private SnacksStore sStore() 
+	{
+		return (SnacksStore) stores.get(Store.SNACK);
+	};
 
 	private PropertyLoader cashLoader;
-	private PropertyLoader drinksLoader;
+	private PropertyLoader drinksLoader = null;
+	private PropertyLoader snacksLoader = null;
 
 	/**
 	 * This constructor creates an instance of StoreController object.
 	 * @param cashLoader the cash loader.
-	 * @param drinksLoader the drinks loader.
+	 * @param storeLoaderStrategy the store loader strategy.
 	 */
 	public StoreController(
 		PropertyLoader cashLoader,
-		PropertyLoader drinksLoader) {
+		StoreLoaderStrategy storeLoaderStrategy) {
 		this.cashLoader = cashLoader;
-		this.drinksLoader = drinksLoader;
+		
+		this.drinksLoader = storeLoaderStrategy.GetLoader(StoreSaleItemType.Drink);
+		this.snacksLoader = storeLoaderStrategy.GetLoader(StoreSaleItemType.Snack);
 	}
 
 	/**
@@ -50,19 +74,18 @@ public class StoreController {
 	 * @throws IOException if fail to initialize stores; reading properties.
 	 */
 	public void initialize() throws IOException {
-		cStore = new CashStore();
-		dStore = new DrinksStore();
 		initializeStores();
 	}
 
 	/**
-	 * This method initiates the initialization of the {@link DrinkStore} and {@link CashStore}
+	 * This method initiates the initialization of the {@link DrinkStore}, {@link SnacksStore} and {@link CashStore}
 	 * from data read-in from an input file.
 	 * @throws IOException if fail to initialize stores; reading properties.
 	 */
 	private void initializeStores() throws IOException {
 		initializeCashStore();
 		initializeDrinkStore();
+		initializeSnackStore();
 	}
 
 	/**
@@ -70,19 +93,40 @@ public class StoreController {
 	 * @throws IOException if fail to initialize drinks store; reading properties.
 	 */
 	private void initializeDrinkStore() throws IOException {
-
-		// get the drink file from the environment property file;
+		
+		stores.put(Store.DRINK, new DrinksStore());
 		int numOfItems = drinksLoader.getNumOfItems();
-		dStore.setStoreSize(numOfItems);
+		dStore().setStoreSize(numOfItems);
 
 		for (int i = 0; i < numOfItems; i++) {
             DrinksStoreItem item = (DrinksStoreItem) drinksLoader.getItem(i);
 			StoreObject brand = item.getContent();
-			StoreObject existingBrand = dStore.findObject(brand.getName());
+			StoreObject existingBrand = dStore().findObject(brand.getName());
 			if (existingBrand != null) {
 			    item.setContent(existingBrand);
 			}
-			dStore.addItem(i, item);
+			dStore().addItem(i, item);
+		}
+	}
+	
+	/**
+	 * This method initialize the {@link SnacksStore}.
+	 * @throws IOException if fail to initialize snacks store; reading properties.
+	 */
+	private void initializeSnackStore() throws IOException {
+
+		stores.put(Store.SNACK, new SnacksStore());
+		int numOfItems = snacksLoader.getNumOfItems();
+		sStore().setStoreSize(numOfItems);
+
+		for (int i = 0; i < numOfItems; i++) {
+            SnacksStoreItem item = (SnacksStoreItem) snacksLoader.getItem(i);
+			StoreObject brand = item.getContent();
+			StoreObject existingBrand = sStore().findObject(brand.getName());
+			if (existingBrand != null) {
+			    item.setContent(existingBrand);
+			}
+			sStore().addItem(i, item);
 		}
 	}
 
@@ -91,14 +135,15 @@ public class StoreController {
 	 * @throws IOException if fail to initialize cash store; reading properties.
 	 */
 	private void initializeCashStore() throws IOException {
-
+		stores.put(Store.CASH, new CashStore());
+		
 		// get the cash file from the environment property file;
 		int numOfItems = cashLoader.getNumOfItems();
-		cStore.setStoreSize(numOfItems);
+		cStore().setStoreSize(numOfItems);
 
 		for (int i = 0; i < numOfItems; i++) {
 		    CashStoreItem item = (CashStoreItem) cashLoader.getItem(i);
-			cStore.addItem(i, item);
+			cStore().addItem(i, item);
 		}
 	}
 
@@ -108,7 +153,7 @@ public class StoreController {
 	 * @param c the Coin to be stored.
 	 */
 	public void storeCoin(Coin c) {
-		int idx = cStore.findCashStoreIndex(c);
+		int idx = cStore().findCashStoreIndex(c);
 		CashStoreItem item;
 		item = (CashStoreItem) this.getStoreItem(Store.CASH, idx);
 		item.increment();
@@ -116,14 +161,12 @@ public class StoreController {
 
 	/**
 	 * This method return the total size of the {@link Store} of the given type of {@link Store}.
-	 * @param type the type of the Store (either CASH or DRINK).
+	 * @param type the type of the Store (either CASH, SNACK or DRINK).
 	 * @return the size of the store of the given type of Store.
 	 */
 	public int getStoreSize(int type) {
-		if (type == Store.CASH)
-			return cStore.getStoreSize();
-		else
-			return dStore.getStoreSize();
+		Store store = stores.get(type);
+		return (store != null) ? store.getStoreSize() : 0;
 	}
 
 	/**
@@ -132,10 +175,8 @@ public class StoreController {
 	 * @return an array of StoreItem.
 	 */
 	public StoreItem[] getStoreItems(int type) {
-		if (type == Store.CASH)
-			return cStore.getItems();
-		else
-			return dStore.getItems();
+		Store store = stores.get(type);
+		return (store != null) ? store.getItems() : new StoreItem[0];
 	}
 
 	/**
@@ -152,10 +193,9 @@ public class StoreController {
 	 */
 	public void changeStoreQty(int type, int idx, int qty) {
 			System.out.println("StoreController.changeStoreQty: type:"+ type+ " qty:"+ qty);
-			if (type == Store.CASH)
-				cStore.setQuantity(idx, qty);
-			else
-				dStore.setQuantity(idx, qty);
+			Store store = stores.get(type);
+			if (store != null) 
+				store.setQuantity(idx, qty);
 	}
 
 	/**
@@ -165,10 +205,8 @@ public class StoreController {
 	 * @return the StoreItem.
 	 */
 	public StoreItem getStoreItem(int type, int idx) {
-		if (type == Store.CASH)
-			return cStore.getStoreItem(idx);
-		else
-			return dStore.getStoreItem(idx);
+		Store store = stores.get(type);
+		return (store != null) ? store.getStoreItem(idx) : null;
 	}
 
 	/**
@@ -176,15 +214,43 @@ public class StoreController {
 	 * @param idx the index of the StoreItem.
 	 * @param pr the price of the StoreItem.
 	 */
-	public void setPrice(int idx, int pr)  {
+	public void setPrice(int idx, int pr, int type)  {
+		switch(type)
+		{
+			case Store.DRINK: 
+				setSnackPrice(idx, pr);
+				break;
+			case Store.SNACK:
+				setDrinkPrice(idx, pr);
+				break;
+			default:
+				return;
+		}
+	}
+	
+	private void setDrinkPrice(int idx, int pr)  {
+		if (dStore() == null) return;
+		
 		DrinksStoreItem item;
 
-		item = (DrinksStoreItem) dStore.getStoreItem(idx);
+		item = (DrinksStoreItem) dStore().getStoreItem(idx);
 		DrinksBrand bd;
 
 		bd = (DrinksBrand) item.getContent();
 
 		bd.setPrice(pr);
+	}
+	
+	private void setSnackPrice(int idx, int pr)  {
+		if (sStore() == null) return;
+		SnacksStoreItem item;
+
+		item = (SnacksStoreItem) sStore().getStoreItem(idx);
+		SnacksBrand sd;
+
+		sd = (SnacksBrand) item.getContent();
+
+		sd.setPrice(pr);
 	}
 
 	/**
@@ -195,7 +261,7 @@ public class StoreController {
 		int i;
 		int size;
 
-		size = cStore.getStoreSize();
+		size = cStore().getStoreSize();
 		CashStoreItem item;
 		int qty;
 		int val;
@@ -203,7 +269,7 @@ public class StoreController {
 		Coin c;
 
 		for (i = 0; i < size; i++) {
-			item = (CashStoreItem) cStore.getStoreItem(i);
+			item = (CashStoreItem) cStore().getStoreItem(i);
 			qty = item.getQuantity();
 			c = (Coin) item.getContent();
 			val = c.getValue();
@@ -220,11 +286,11 @@ public class StoreController {
 	public int transferAll()  {
 		int i;
 		int cc = 0; // coin quauntity;
-		int size = cStore.getStoreSize();
+		int size = cStore().getStoreSize();
 
 		CashStoreItem item;
 		for (i = 0; i < size; i++) {
-			item = (CashStoreItem) cStore.getStoreItem(i);
+			item = (CashStoreItem) cStore().getStoreItem(i);
 			cc = cc + item.getQuantity();
 			item.setQuantity(0);
 		}
@@ -241,6 +307,7 @@ public class StoreController {
 		// save back cash property;
 		saveCashProperties();
         saveDrinksProperties();
+        saveSnacksProperties();
 	}
 
 	/**
@@ -248,10 +315,10 @@ public class StoreController {
 	 * @throws IOException if fail to save cash properties.
 	 */
 	private void saveCashProperties() throws IOException {
-		int size = cStore.getStoreSize();
+		int size = cStore().getStoreSize();
 		cashLoader.setNumOfItems(size);
 		for (int i = 0; i < size; i++) {
-			cashLoader.setItem(i, cStore.getStoreItem(i));
+			cashLoader.setItem(i, cStore().getStoreItem(i));
 		}
 		cashLoader.saveProperty();
 	}
@@ -262,12 +329,28 @@ public class StoreController {
 	 * @throws IOException if fail to save drinks properties.
 	 */
 	private void saveDrinksProperties() throws IOException {
-		int size = dStore.getStoreSize();
+		if (dStore() == null) return;
+		int size = dStore().getStoreSize();
 		drinksLoader.setNumOfItems(size);
 		for (int i = 0; i < size; i++) {
-			drinksLoader.setItem(i, dStore.getStoreItem(i));
+			drinksLoader.setItem(i, dStore().getStoreItem(i));
 		}
 		drinksLoader.saveProperty();
+	}
+	
+	/**
+	 * This method saves the attributes of the {@link SnacksStore} to the input file.
+	 * It saves the snack property when simulation is ended.
+	 * @throws IOException if fail to save snacks properties.
+	 */
+	private void saveSnacksProperties() throws IOException {
+		if (sStore() == null) return;
+		int size = sStore().getStoreSize();
+		snacksLoader.setNumOfItems(size);
+		for (int i = 0; i < size; i++) {
+			snacksLoader.setItem(i, dStore().getStoreItem(i));
+		}
+		snacksLoader.saveProperty();
 	}
 
 	/**
@@ -288,10 +371,7 @@ public class StoreController {
 	 * @return the Store of the specified type&#46;
 	 */
 	public Store getStore(int type) {
-		if (type == Store.CASH)
-			return (Store) cStore;
-		else
-			return (Store) dStore;
+		return stores.get(type);
 	}
 
 	/**

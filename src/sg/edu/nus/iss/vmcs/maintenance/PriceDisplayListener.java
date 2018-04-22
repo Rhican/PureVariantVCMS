@@ -8,6 +8,9 @@
 package sg.edu.nus.iss.vmcs.maintenance;
 
 import java.awt.event.*;
+
+import sg.edu.nus.iss.vmcs.store.Store;
+
 import java.awt.*;
 
 /**
@@ -19,6 +22,7 @@ import java.awt.*;
  */
 public class PriceDisplayListener implements ActionListener {
 	private MaintenanceController mctrl;
+	private int type = Store.DRINK;
 
 	/**
 	 * This constructor creates an instance of PriceDisplayListener object.
@@ -26,6 +30,15 @@ public class PriceDisplayListener implements ActionListener {
 	 */
 	public PriceDisplayListener(MaintenanceController mc) {
 		mctrl = mc;
+	}
+	
+	/**
+	 * This constructor creates an instance of PriceDisplayListener object.
+	 * @param mc the MaintenanceController.
+	 */
+	public PriceDisplayListener(MaintenanceController mc, int type) {
+		mctrl = mc;
+		this.type = type;
 	}
 	
 	/**
@@ -42,6 +55,6 @@ public class PriceDisplayListener implements ActionListener {
 
 		ip = Integer.parseInt(sp);
 
-		mctrl.setPrice(ip);
+		mctrl.setPrice(ip, type);
 	}
 }//End of class PriceDisplayListener

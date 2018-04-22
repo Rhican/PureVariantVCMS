@@ -28,8 +28,12 @@ import java.awt.Insets;
 import java.awt.Label;
 import java.awt.Panel;
 import java.awt.Toolkit;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import javax.swing.JToggleButton;
 
 import sg.edu.nus.iss.vmcs.system.SimulatorControlPanel;
 import sg.edu.nus.iss.vmcs.util.LabelledValue;
@@ -85,11 +89,12 @@ public class CustomerPanel extends Dialog {
 	private static final String TITLE = "Customer Panel";
 	private TransactionController txCtrl;
 
-	private Panel pan0=new Panel();
+	private Panel pan0=new Panel(), pan1 = new Panel();
     private Label lblTitle=new Label("VMCS Soft Drinks Dispenser");
     private Label lblEnterCoins=new Label("Enter Coins Here");
     private CoinInputBox coinInputBox;
     private DrinkSelectionBox drinkSelectionBox;
+    private SnackSelectionBox snackSelectionBox;
     private WarningDisplay wndInvalidCoin=new WarningDisplay("Invalid Coin");
     private LabelledValue lbdTotalMoneyInserted=new LabelledValue("Total Money Inserted:","0 C",50);
     private WarningDisplay wndNoChangeAvailable=new WarningDisplay("No Change Available");
@@ -121,10 +126,11 @@ public class CustomerPanel extends Dialog {
 		
 		coinInputBox=new CoinInputBox(txCtrl);
 		drinkSelectionBox=new DrinkSelectionBox(txCtrl);
+		snackSelectionBox =new SnackSelectionBox(txCtrl);
+			
 		TerminateButtonListener terminateButtonListener=new TerminateButtonListener(txCtrl);
 		
 		coinInputBox.setActive(false);
-		drinkSelectionBox.setActive(true);
 		
 		btnTerminate.addActionListener(terminateButtonListener);
 		
@@ -141,12 +147,52 @@ public class CustomerPanel extends Dialog {
 		pan0.add(wndInvalidCoin,new GridBagConstraints(0,2,1,1,1.0,0.0,
 			    GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,
 			    new Insets(5,0,0,0),10,0));
+		
 		pan0.add(lbdTotalMoneyInserted,new GridBagConstraints(0,3,0,1,0.0,0.0,
 			    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
 			    new Insets(5,0,0,0),10,0));
-		pan0.add(drinkSelectionBox,new GridBagConstraints(0,4,0,1,0.0,0.0,
+		
+		pan1.setLayout(new GridBagLayout());
+		
+		if (drinkSelectionBox.Count() > 0) {
+			drinkSelectionBox.setActive(true);
+			pan1.add(drinkSelectionBox,new GridBagConstraints(0,0,0,1,0.0,0.0,
+				    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
+				    new Insets(5,0,0,0),10,0));
+		}			
+		if (snackSelectionBox.Count() > 0) {
+			snackSelectionBox.setActive(true);
+			pan1.add(snackSelectionBox,new GridBagConstraints(0,0,0,1,0.0,0.0,
+				    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
+				    new Insets(5,0,0,0),10,0));
+		}
+		
+		
+		if (drinkSelectionBox.Count() > 0 && snackSelectionBox.Count() >0)
+		{
+			JToggleButton jtb = new JToggleButton("snacks");
+			jtb.addItemListener(new ItemListener() {
+			   public void itemStateChanged(ItemEvent ev) {
+			      if(ev.getStateChange()==ItemEvent.SELECTED){
+			    	  drinkSelectionBox.setVisible(false);
+			    	  snackSelectionBox.setVisible(true);
+			    	  jtb.setText("drinks");
+			      } else if(ev.getStateChange()==ItemEvent.DESELECTED){
+			    	  drinkSelectionBox.setVisible(true);
+			    	  snackSelectionBox.setVisible(false);
+			    	  jtb.setText("snacks");
+			      }
+			   }
+			});
+			pan1.add(jtb,new GridBagConstraints(0,1,0,1,0.0,0.0,
+				    GridBagConstraints.EAST,GridBagConstraints.NONE,
+				    new Insets(5,0,0,0),10,0));
+		}		
+		
+		pan0.add(pan1,new GridBagConstraints(0,4,0,1,0.0,0.0,
 			    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
 			    new Insets(5,0,0,0),10,0));
+		
 		pan0.add(wndNoChangeAvailable,new GridBagConstraints(0,5,0,1,0.0,0.0,
 			    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
 			    new Insets(5,0,0,0),10,0));
@@ -311,6 +357,7 @@ public class CustomerPanel extends Dialog {
 	 */
 	public void setDrinkSelectionBoxActive(boolean active){
 		drinkSelectionBox.setActive(active);
+		drinkSelectionBox.setActive(active);
 	}
 	
 	/**
@@ -346,6 +393,15 @@ public class CustomerPanel extends Dialog {
 	public DrinkSelectionBox getDrinkSelectionBox(){
 		return drinkSelectionBox;
 	}
+	
+	/**
+	 * This method returns the DrinkSelectionBox in the CustomerPanel.
+	 * @return the DrinkSelectionBox in the CustomerPanel.
+	 */
+	public SnackSelectionBox getSnackSelectionBox(){
+		return snackSelectionBox;
+	}
+	
 	
 	/**
 	 * This method activates or deactivates the Customer Panel and its component

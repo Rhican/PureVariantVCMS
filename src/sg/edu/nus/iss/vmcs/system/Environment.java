@@ -21,6 +21,8 @@ import sg.edu.nus.iss.vmcs.util.*;
 public class Environment {
 	/**This constant attribute identify the drink property filename*/
 	public final static String DRINK_PROP_FILE = "drinkFile";
+	/**This constant attribute identify the drink property filename*/
+	public final static String SNACK_PROP_FILE = "snackFile";
 	/**This constant attribute identify the cash property filename*/
 	public final static String CASH_PROP_FILE = "cashFile";
 	/**This constant attribute denotes the password string*/
@@ -53,6 +55,14 @@ public class Environment {
 	 */
 	public static String getDrinkPropFile() {
 		return prop.getProperty(DRINK_PROP_FILE);
+	}
+	
+	/**
+	 * This method returns the name/ location of the SnacksStore properties file.
+	 * @return the name of the SnacksStore properties file.
+	 */
+	public static String getSnackPropFile() {
+		return prop.getProperty(SNACK_PROP_FILE);
 	}
 
 	/**

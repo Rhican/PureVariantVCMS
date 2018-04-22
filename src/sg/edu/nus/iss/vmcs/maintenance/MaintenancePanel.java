@@ -66,7 +66,7 @@ public class MaintenancePanel extends Dialog {
 	private LabelledDisplay collectCash;
 	private Button exitBtn;
 	private CoinDisplay cDisplay; // need to be access from other class.
-	private DrinkDisplay dDisplay; // need to be access from other class.
+	private ItemDisplay dDisplay, sDisplay; // need to be access from other class.
 	private ButtonItem totalCash;
 	private Button transferCash;
 	private WarningDisplay validPswd;
@@ -110,7 +110,8 @@ public class MaintenancePanel extends Dialog {
 		tpc.setLayout(new GridLayout(0, 1));
 
 		cDisplay = new CoinDisplay(mctrl);
-		dDisplay = new DrinkDisplay(mctrl);
+		dDisplay = new ItemDisplay(mctrl, Store.DRINK);
+		sDisplay = new ItemDisplay(mctrl, Store.SNACK);
 
 		Panel tp5 = new Panel();
 		tp5.setLayout(new GridLayout(0, 1));
@@ -141,7 +142,10 @@ public class MaintenancePanel extends Dialog {
 		Panel pp = new Panel();
 		pp.setLayout(new GridLayout(1, 2));
 		pp.add(cDisplay);
-		pp.add(dDisplay);
+		if (!dDisplay.isEmpty())
+			pp.add(dDisplay);
+		if (!sDisplay.isEmpty())
+			pp.add(sDisplay);
 		tpc.add("Center", pp);
 		tpc.add("South", tp5);
 
@@ -192,10 +196,18 @@ public class MaintenancePanel extends Dialog {
 	 * This method returns the DrinksDisplay.
 	 * @return the DrinksDisplay.
 	 */
-	public DrinkDisplay getDrinksDisplay() {
+	public ItemDisplay getDrinksDisplay() {
 		return dDisplay;
 	}
-
+	
+	/**
+	 * This method returns the SnacksDisplay.
+	 * @return the SnacksDisplay.
+	 */
+	public ItemDisplay getSnacksDisplay() {
+		return sDisplay;
+	}
+	
 	/**
 	 * This method displays a message indicating the VALID or INVALID password status.
 	 * @param st if TRUE then highlight VALID password status, otherwise, highlight
@@ -229,6 +241,7 @@ public class MaintenancePanel extends Dialog {
 				collectCash.setActive(st);
 				cDisplay.setActive(st);
 				dDisplay.setActive(st);
+				sDisplay.setActive(st);
 				totalCash.setActive(st);
 				transferCash.setEnabled(st);
 				break;
@@ -278,8 +291,13 @@ public class MaintenancePanel extends Dialog {
 		throws VMCSException {
 		if (type == Store.CASH) {
 			cDisplay.displayQty(idx, qty);
-		} else
+		} 
+		else if (type == Store.DRINK) {
 			dDisplay.displayQty(idx, qty);
+		} 
+		else if (type == Store.SNACK) {
+			sDisplay.displayQty(idx, qty);
+		}
 	}
 
 	/**
@@ -292,6 +310,8 @@ public class MaintenancePanel extends Dialog {
 		int curIdx;
 		if (type == Store.CASH)
 			curIdx = cDisplay.getCurIdx();
+		else if (type == Store.SNACK)
+			curIdx = sDisplay.getCurIdx();
 		else
 			curIdx = dDisplay.getCurIdx();
 		updateQtyDisplay(type, curIdx, qty);
@@ -322,7 +342,10 @@ public class MaintenancePanel extends Dialog {
 	 * This method display the price for the DrinkDisplay.
 	 * @param price the price of the Drinks.
 	 */
-	public void displayPrice(int price) {
-		dDisplay.getPriceDisplay().setValue(price + "C");
+	public void displayPrice(int price, int type) {
+		if (type == Store.SNACK) 
+			sDisplay.getPriceDisplay().setValue(price + "C");
+		else
+			dDisplay.getPriceDisplay().setValue(price + "C");
 	}
 }//End of class MaintenancePanel

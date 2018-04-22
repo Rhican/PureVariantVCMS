@@ -15,31 +15,31 @@ import java.awt.event.ActionListener;
 import sg.edu.nus.iss.vmcs.store.Store;
 
 /**
- * This control object monitors the selection of drink (drink brand) by a customer in the Customer Panel.
- * It performs an action in corresponding to the drink selected.
+ * This control object monitors the selection of snack (snack brand) by a customer in the Customer Panel.
+ * It performs an action in corresponding to the snack selected.
  * @author Team SE16T5E
  * @version 1.0 2008-10-01
  */
-public class DrinkSelectionListener implements ActionListener{
+public class SnackSelectionListener implements ActionListener{
 	private TransactionController txCtrl;
-	private int drinkIdentifier=-1;
+	private int snackIdentifier=-1;
 	/**
 	 * This constructor creates an instance of the object.
 	 * @param txCtrl the TransactionController&#46;
 	 */
-	public DrinkSelectionListener(TransactionController txCtrl, int drinkIdentifier){
+	public SnackSelectionListener(TransactionController txCtrl, int snackIdentifier){
 		this.txCtrl=txCtrl;
-		this.drinkIdentifier=drinkIdentifier;
+		this.snackIdentifier=snackIdentifier;
 	}
 	
 	/**
-	 * This method performs actions in response to the drink button being pressed.
+	 * This method performs actions in response to the snack button being pressed.
 	 */
 	public void actionPerformed(ActionEvent ev){
 		Object obj=ev.getSource();
 		Button btn=(Button)obj;
 		btn.requestFocus();
-		txCtrl.startTransaction(drinkIdentifier, Store.DRINK);
+		txCtrl.startTransaction(snackIdentifier, Store.SNACK);
 		btn.setBackground(Color.yellow);
 	}
-}//End of class DrinkSelectionListener
+}//End of class SnackSelectionListener

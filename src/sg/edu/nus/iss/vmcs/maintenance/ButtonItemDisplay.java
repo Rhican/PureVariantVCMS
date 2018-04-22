@@ -24,6 +24,9 @@ public class ButtonItemDisplay extends Panel {
 	private int len;
 	private Label lb;
 
+	public int Count() {
+		return len;
+	}
 	/**
 	 * This constructor creates an instance of ButtonItemDisplay object.
 	 * @param title the title of the label.

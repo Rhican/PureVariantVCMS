@@ -14,6 +14,8 @@ import sg.edu.nus.iss.vmcs.machinery.MachineryController;
 import sg.edu.nus.iss.vmcs.store.CashStoreItem;
 import sg.edu.nus.iss.vmcs.store.DrinksBrand;
 import sg.edu.nus.iss.vmcs.store.DrinksStoreItem;
+import sg.edu.nus.iss.vmcs.store.SnacksBrand;
+import sg.edu.nus.iss.vmcs.store.SnacksStoreItem;
 import sg.edu.nus.iss.vmcs.store.Store;
 import sg.edu.nus.iss.vmcs.store.StoreController;
 import sg.edu.nus.iss.vmcs.system.MainController;
@@ -126,17 +128,31 @@ public class MaintenanceController {
 	 * This method invoked in DrinkDisplayListener.
 	 * @param idx the index of the drinks.
 	 */
-	public void displayDrinks(int idx) {
+	public void displayItems(int idx, int type) {
+		
 		StoreController sctrl = mCtrl.getStoreController();
-		DrinksStoreItem item;
-		try {
-			item = (DrinksStoreItem) sctrl.getStoreItem(Store.DRINK, idx);
-			DrinksBrand db = (DrinksBrand) item.getContent();
-			mpanel.getDrinksDisplay().displayQty(idx, item.getQuantity());
-			mpanel.displayPrice(db.getPrice());
-		} catch (VMCSException e) {
-			System.out.println("MaintenanceController.displayDrink:" + e);
+		if (type == Store.DRINK) {
+			DrinksStoreItem item;
+			try {
+				item = (DrinksStoreItem) sctrl.getStoreItem(Store.DRINK, idx);
+				DrinksBrand db = (DrinksBrand) item.getContent();
+				mpanel.getDrinksDisplay().displayQty(idx, item.getQuantity());
+				mpanel.displayPrice(db.getPrice(), Store.DRINK);
+			} catch (VMCSException e) {
+				System.out.println("MaintenanceController.displayDrink:" + e);
+			}
 		}
+		else if (type == Store.SNACK) {
+			SnacksStoreItem item;
+			try {
+				item = (SnacksStoreItem) sctrl.getStoreItem(Store.SNACK, idx);
+				SnacksBrand db = (SnacksBrand) item.getContent();
+				mpanel.getSnacksDisplay().displayQty(idx, item.getQuantity());
+				mpanel.displayPrice(db.getPrice(), Store.SNACK);
+			} catch (VMCSException e) {
+				System.out.println("MaintenanceController.displaySnack:" + e);
+			}
+		} 
 
 	}
 
@@ -144,10 +160,10 @@ public class MaintenanceController {
 	 * This method invoked by PriceDisplayListener.
 	 * @param pr the price of the drinks.
 	 */
-	public void setPrice(int pr) {
+	public void setPrice(int pr, int type) {
 		StoreController sctrl = mCtrl.getStoreController();
 		int curIdx = mpanel.getCurIdx();
-		sctrl.setPrice(curIdx, pr);
+		sctrl.setPrice(curIdx, pr, type);
 		mpanel.getDrinksDisplay().getPriceDisplay().setValue(pr + "C");
 	}
 

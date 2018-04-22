@@ -10,6 +10,7 @@ import sg.edu.nus.iss.vmcs.system.CashPropertyLoader;
 import sg.edu.nus.iss.vmcs.system.DrinkPropertyLoader;
 import sg.edu.nus.iss.vmcs.system.Environment;
 import sg.edu.nus.iss.vmcs.system.MainController;
+import sg.edu.nus.iss.vmcs.system.StoreLoaderStrategy;
 
 public class StoreControllerTest extends TestCase{
 	private String propertyFilename=System.getProperty("propertyFilename");
@@ -28,12 +29,9 @@ public class StoreControllerTest extends TestCase{
 		Environment.initialize(propertyFilename);
 		CashPropertyLoader cashLoader =
 			new CashPropertyLoader(Environment.getCashPropFile());
-		DrinkPropertyLoader drinksLoader =
-			new DrinkPropertyLoader(Environment.getDrinkPropFile());
 		cashLoader.initialize();
-		drinksLoader.initialize();
 		//Act
-		StoreController storeController=new StoreController(cashLoader, drinksLoader);
+		StoreController storeController=new StoreController(cashLoader, new StoreLoaderStrategy());
 		storeController.initialize();
 		//Assert
 		assertNotNull(storeController);
@@ -271,7 +269,7 @@ public class StoreControllerTest extends TestCase{
 		for(int i=0;i<storeSize;i++){
 			int price1=60+i;
 			//Act setPrice
-			storeController.setPrice(i, price1);
+			storeController.setPrice(i, price1, Store.DRINK);
 			DrinksStoreItem drinksStoreItem=((DrinksStoreItem)storeController.getStoreItem(Store.DRINK, i));
 			DrinksBrand drinksBrand=(DrinksBrand)drinksStoreItem.getContent();
 			int price2=drinksBrand.getPrice();

@@ -18,6 +18,7 @@ package sg.edu.nus.iss.vmcs.customer;
 import java.awt.Frame;
 
 import sg.edu.nus.iss.vmcs.store.DrinksBrand;
+import sg.edu.nus.iss.vmcs.store.SnacksBrand;
 import sg.edu.nus.iss.vmcs.store.Store;
 import sg.edu.nus.iss.vmcs.store.StoreItem;
 import sg.edu.nus.iss.vmcs.system.MainController;
@@ -38,12 +39,12 @@ public class TransactionController {
 
 	/**Set to TRUE when change is successfully issued during the transaction.*/
 	private boolean changeGiven=false;
-	/**Set to TRUE when the drink is successfully dispensed during the transaction.*/
-	private boolean drinkDispensed=false;
-	/**Price of the selected drink.*/
+	/**Set to TRUE when the drink/snack is successfully dispensed during the transaction.*/
+	private boolean itemDispensed=false;
+	/**Price of the selected drink/snack.*/
 	private int price=0;
-	/**Identifier of the selected drink.*/
-	private int selection=-1;
+	/**Identifier of the selected drink/snack.*/
+	private int selection=-1, selectedType = Store.DRINK;
 	
 	/**
 	 * This constructor creates an instance of the TransactionController.
@@ -88,17 +89,29 @@ public class TransactionController {
 	 * <br>
 	 * 3- The Can Collection Box is reset&#46;
 	 * <br>
-	 * 4- The Drink Selection Box is deactivated to disallow the selection of further
+	 * 4- The Drink/Snack Selection Box is deactivated to disallow the selection of further
 	 * drinks when the transaction is in progress&#46;
 	 * <br>
 	 * 5- The Coin Receiver will be instructed to start receiving the coins&#46;
-	 * @param drinkIdentifier the drink brand item identifier.
+	 * @param identifier the drink brand item identifier.
 	 */
-	public void startTransaction(int drinkIdentifier){
-		setSelection(drinkIdentifier);
-		StoreItem storeItem=mainCtrl.getStoreController().getStoreItem(Store.DRINK,drinkIdentifier);
-		DrinksBrand drinksBrand=(DrinksBrand)storeItem.getContent();
-		setPrice(drinksBrand.getPrice());
+	public void startTransaction(int identifier, int type){
+		selectedType = type;
+		if (type == Store.DRINK)
+		{
+			setSelection(identifier);
+			StoreItem storeItem=mainCtrl.getStoreController().getStoreItem(Store.DRINK,identifier);
+			DrinksBrand drinksBrand=(DrinksBrand)storeItem.getContent();
+			setPrice(drinksBrand.getPrice());
+		}
+		else if (type == Store.SNACK)
+		{
+			setSelection(identifier);
+			StoreItem storeItem=mainCtrl.getStoreController().getStoreItem(Store.SNACK,identifier);
+			SnacksBrand snacksBrand=(SnacksBrand)storeItem.getContent();
+			setPrice(snacksBrand.getPrice());
+		}
+		
 		changeGiver.resetChange();
 		dispenseCtrl.ResetCan();
 		changeGiver.displayChangeStatus();
@@ -143,7 +156,10 @@ public class TransactionController {
 	 */
 	public void completeTransaction(){
 		System.out.println("CompleteTransaction: Begin");
-		dispenseCtrl.dispenseDrink(selection);
+		if (selectedType == Store.SNACK)
+			dispenseCtrl.dispenseSnack(selection);
+		else
+			dispenseCtrl.dispenseDrink(selection);
 		int totalMoneyInserted=coinReceiver.getTotalInserted();
 		int change=totalMoneyInserted-price;
 		if(change>0){
@@ -254,7 +270,7 @@ public class TransactionController {
 	 * @param drinkDispensed TRUE the drink is dispensed, otherwise, FALSE.
 	 */
 	public void setDrinkDispensed(boolean drinkDispensed) {
-		this.drinkDispensed = drinkDispensed;
+		this.itemDispensed = drinkDispensed;
 	}
 
 	/**
@@ -262,7 +278,7 @@ public class TransactionController {
 	 * @return TRUE if the drink is dispensed, otherwise FALSE.
 	 */
 	public boolean isDrinkDispensed() {
-		return drinkDispensed;
+		return itemDispensed;
 	}
 
 	/**

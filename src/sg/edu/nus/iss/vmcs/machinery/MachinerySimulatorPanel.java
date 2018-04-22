@@ -32,7 +32,7 @@ public class MachinerySimulatorPanel extends Dialog {
 	private static final String TITLE = "Machinery Panel";
 
 	private StoreViewer cashDisplay;
-	private StoreViewer drinksDisplay;
+	private StoreViewer drinksDisplay, snacksDisplay;
 	private Checkbox doorDisplay;
 	private StoreController storeCtrl;
 	private MachineryController machineryCtrl;
@@ -54,11 +54,15 @@ public class MachinerySimulatorPanel extends Dialog {
 
 		cashDisplay = new StoreViewer(Store.CASH, storeCtrl);
 		drinksDisplay = new StoreViewer(Store.DRINK, storeCtrl);
+		snacksDisplay = new StoreViewer(Store.SNACK, storeCtrl);
 
 		Panel tp = new Panel();
 		tp.setLayout(new GridLayout(0, 1));
 		tp.add(cashDisplay);
-		tp.add(drinksDisplay);
+		if (drinksDisplay.Count() > 0)
+			tp.add(drinksDisplay);
+		if (snacksDisplay.Count() > 0)
+			tp.add(snacksDisplay);
 
 		Panel dp = new Panel();
 		doorDisplay = new Checkbox();
@@ -118,6 +122,13 @@ public class MachinerySimulatorPanel extends Dialog {
 	}
 
 	/**
+	 * This method returns the SnacksDisplay:StoreViewer.
+	 * @return the SnacksDisplay:StoreViewer.
+	 */
+	public StoreViewer getSnacksStoreDisplay() {
+		return snacksDisplay;
+	}
+	/**
 	 * This method set the door state to Open or Closed.
 	 * @param state TRUE to set the door state to open, otherwise, set the door state to close.
 	 */
@@ -133,6 +144,7 @@ public class MachinerySimulatorPanel extends Dialog {
 	public void refresh(){
 		cashDisplay.update();
 		drinksDisplay.update();
+		snacksDisplay.update();
 	}
 	
 	/**
@@ -142,6 +154,7 @@ public class MachinerySimulatorPanel extends Dialog {
 	public void setActive(boolean state) {
 		cashDisplay.setActive(state);
 		drinksDisplay.setActive(state);
+		snacksDisplay.setActive(state);
 		doorDisplay.setEnabled(state);
 	}
 }//End of class MachinerySimulatorPanel

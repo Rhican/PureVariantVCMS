@@ -1,0 +1,21 @@
+#
+#Sat Apr 21 17:47:50 SGT 2018
+Name6=CRUNCH 
+Name5=Lay's Classic
+Name4=M&Ms
+Name3=SNOIKERS
+Name2=nutella
+Name1=KitKat
+NumOfItems=6
+Quantity6=5
+Quantity5=5
+Quantity4=5
+Quantity3=5
+Quantity2=5
+Quantity1=5
+Price6=200
+Price5=150
+Price4=180
+Price3=150
+Price2=250
+Price1=180

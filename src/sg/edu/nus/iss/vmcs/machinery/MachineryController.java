@@ -139,6 +139,7 @@ public class MachineryController {
 		if (ml == null)
 			return;
 		ml.getDrinksStoreDisplay().update();
+		ml.getSnacksStoreDisplay().update();
 	}
 
 	/**

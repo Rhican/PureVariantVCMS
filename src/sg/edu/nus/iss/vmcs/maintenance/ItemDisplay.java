@@ -21,31 +21,33 @@ import sg.edu.nus.iss.vmcs.util.*;
  * @version 3.0 5/07/2003
  * @author Olivo Miotto, Pang Ping Li
  */
-public class DrinkDisplay extends Panel {
-	public final static String TITLE = "Quantity of Drinks Available";
+public class ItemDisplay extends Panel {
+	public final static String TITLE_DRINK = "Quantity of Drinks Available";
+	public final static String TITLE_SNACK = "Quantity of Snacks Available";
 
 	private StoreController storeCtrl;
 	private MaintenanceController mCtrl;
 	private ButtonItemDisplay bi;
 	private LabelledDisplay price;
 	private int curIdx; //current displayed item index;
-
+	private int type = Store.DRINK;
 	/**
 	 * This constructor creates an instance of the DrinkDisplay object.
 	 * @param mctrl the MaintenanceController.
 	 */
-	public DrinkDisplay(MaintenanceController mctrl) {
+	public ItemDisplay(MaintenanceController mctrl, int type) {
 		mCtrl = mctrl;
+		this.type = type;
 		storeCtrl = mCtrl.getMainController().getStoreController();
 
 		this.setLayout(new BorderLayout());
 		int len;
-		len = storeCtrl.getStoreSize(Store.DRINK);
-		StoreItem[] items = storeCtrl.getStoreItems(Store.DRINK);
+		len = storeCtrl.getStoreSize(this.type);
+		StoreItem[] items = storeCtrl.getStoreItems(this.type);
 
-		bi = new ButtonItemDisplay(TITLE, items, len);
+		bi = new ButtonItemDisplay((type == Store.DRINK) ? TITLE_DRINK : TITLE_SNACK, items, len);
 
-		bi.addListener(new DrinkDisplayListener(mCtrl));
+		bi.addListener(new ItemDisplayListener(mCtrl, type));
 		bi.clear();
 		price = new LabelledDisplay("Brand Price", 4, LabelledDisplay.FLOW);
 
@@ -99,5 +101,9 @@ public class DrinkDisplay extends Panel {
 	 */
 	public int getCurIdx() {
 		return curIdx;
+	}
+	
+	public boolean isEmpty() {
+		return bi.Count() == 0;
 	}
 }//End of class DrinkDisplay

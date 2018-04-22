@@ -29,6 +29,8 @@ public class StoreViewer extends Panel {
 	public static final String CASH_VIEW_TITLE = "Quantity of Coins Available";
 	/**This constant attribute holds the drink view title*/
 	public static final String DRINK_VIEW_TITLE = "Quantity of Drinks Available";
+	/**This constant attribute holds the snack view title*/
+	public static final String SNACK_VIEW_TITLE = "Quantity of Snack Available";
 
 	/**
 	 * This constructor creates an instance of StoreViewer object.
@@ -47,6 +49,9 @@ public class StoreViewer extends Panel {
 			break;
 		case Store.DRINK:
 			title = DRINK_VIEW_TITLE;
+			break;
+		case Store.SNACK:
+			title = SNACK_VIEW_TITLE;
 			break;
 		}
 
@@ -73,6 +78,10 @@ public class StoreViewer extends Panel {
 		update();
 	}
 
+	public int Count() {
+		return viewItems.length;
+	}
+	
 	/**
 	 * Update the display fields with the data provided.
 	 */
