@@ -95,7 +95,7 @@ public class StoreController {
 	private void initializeDrinkStore() throws IOException {
 		
 		stores.put(Store.DRINK, new DrinksStore());
-		int numOfItems = drinksLoader.getNumOfItems();
+		int numOfItems = (drinksLoader != null) ? drinksLoader.getNumOfItems() : 0;
 		dStore().setStoreSize(numOfItems);
 
 		for (int i = 0; i < numOfItems; i++) {
@@ -116,7 +116,7 @@ public class StoreController {
 	private void initializeSnackStore() throws IOException {
 
 		stores.put(Store.SNACK, new SnacksStore());
-		int numOfItems = snacksLoader.getNumOfItems();
+		int numOfItems = (snacksLoader != null) ? snacksLoader.getNumOfItems() : 0;
 		sStore().setStoreSize(numOfItems);
 
 		for (int i = 0; i < numOfItems; i++) {
