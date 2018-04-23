@@ -24,13 +24,13 @@ package sg.edu.nus.iss.vmcs.store;
  * @version 3.0 5/07/2003
  * @author Olivo Miotto, Pang Ping Li
  */
-public class DrinksBrand extends StoreObject {
+public class ItemsBrand extends StoreObject {
 	private int price;
 
 	/**
 	 * This constructor creates an instance of DrinksBrand object.
 	 */
-	public DrinksBrand() {
+	public ItemsBrand() {
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class DrinksBrand extends StoreObject {
 	 * @param name the name of the drinks brand&#46;
 	 * @param price the price of the drinks brand&#46;
 	 */
-	public DrinksBrand(String name, int price) {
+	public ItemsBrand(String name, int price) {
 		this.price = price;
 		this.name = name;
 	}

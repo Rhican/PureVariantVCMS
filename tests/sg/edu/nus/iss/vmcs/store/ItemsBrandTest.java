@@ -6,7 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SnacksBrandTest extends TestCase{
+public class ItemsBrandTest extends TestCase{
 	
 	@Before
 	public void setup() throws Exception{
@@ -17,34 +17,34 @@ public class SnacksBrandTest extends TestCase{
 	}
 	
 	@Test
-	public void testSnacksBrandConstructor() throws Exception{
-		String name="M & Ms";
+	public void testDrinksBrandConstructor() throws Exception{
+		String name="coca";
 		int price=120;
 		//Act
-		SnacksBrand snacksBrand=new SnacksBrand(name,price);
+		ItemsBrand drinksBrand=new ItemsBrand(name,price);
 		//Assert
-		assertEquals(snacksBrand.getName(),name);
-		assertEquals(snacksBrand.getPrice(),price);
+		assertEquals(drinksBrand.getName(),name);
+		assertEquals(drinksBrand.getPrice(),price);
 	}
 
 	@Test
 	public void testSetGetName() throws Exception{
-		SnacksBrand snacksBrand=new SnacksBrand();
+		ItemsBrand drinksBrand=new ItemsBrand();
 		String name1="XYZ";
 		//Act setName
-		snacksBrand.setName(name1);
+		drinksBrand.setName(name1);
 		//Act getName
-		String name2=snacksBrand.getName();
+		String name2=drinksBrand.getName();
 		//Assert
 		assertEquals(name1,name2);
 	}
 	
 	@Test
 	public void testSetGetPrice() throws Exception{
-		SnacksBrand snacksBrand=new SnacksBrand();
+		ItemsBrand drinksBrand=new ItemsBrand();
 		int price1=80;
-		snacksBrand.setPrice(price1);
-		int price2=snacksBrand.getPrice();
+		drinksBrand.setPrice(price1);
+		int price2=drinksBrand.getPrice();
 		assertEquals(price1,price2);
 	}
-}//SnacksBrandTest
+}//DrinksBrandTest
