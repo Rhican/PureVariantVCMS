@@ -13,7 +13,6 @@ import java.awt.Insets;
 import java.awt.Panel;
 
 import sg.edu.nus.iss.vmcs.store.SnacksBrand;
-import sg.edu.nus.iss.vmcs.store.SnacksStoreItem;
 import sg.edu.nus.iss.vmcs.store.Store;
 import sg.edu.nus.iss.vmcs.store.StoreController;
 import sg.edu.nus.iss.vmcs.store.StoreItem;
@@ -52,12 +51,11 @@ public class SnackSelectionBox extends Panel{
 		setLayout(new GridBagLayout());
 		for(int i=0;i<snackStoreItems.length;i++){
 			StoreItem storeItem=snackStoreItems[i];
-			SnacksStoreItem snacksStoreItem=(SnacksStoreItem)storeItem;
-			StoreObject storeObject=snacksStoreItem.getContent();
+			StoreObject storeObject=storeItem.getContent();
 			SnacksBrand snacksBrand=(SnacksBrand)storeObject;
 			String snacksName=snacksBrand.getName();
 			int snacksPrice=snacksBrand.getPrice();
-			int snacksQuantity=snacksStoreItem.getQuantity();
+			int snacksQuantity=storeItem.getQuantity();
 			snackSelectionItems[i]=new SnackSelectionItem(i,snacksName,snacksPrice,snacksQuantity,true,false);
 			snackSelectionItems[i].addListener(new SnackSelectionListener(txCtrl,i));
 			add(snackSelectionItems[i],new GridBagConstraints(0,i,1,1,1.0,0.0,

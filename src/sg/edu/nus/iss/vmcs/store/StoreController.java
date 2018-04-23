@@ -99,7 +99,7 @@ public class StoreController {
 		dStore().setStoreSize(numOfItems);
 
 		for (int i = 0; i < numOfItems; i++) {
-            DrinksStoreItem item = (DrinksStoreItem) drinksLoader.getItem(i);
+            StoreItem item = drinksLoader.getItem(i);
 			StoreObject brand = item.getContent();
 			StoreObject existingBrand = dStore().findObject(brand.getName());
 			if (existingBrand != null) {
@@ -120,7 +120,7 @@ public class StoreController {
 		sStore().setStoreSize(numOfItems);
 
 		for (int i = 0; i < numOfItems; i++) {
-            StoreItem item = (StoreItem) snacksLoader.getItem(i);
+            StoreItem item = snacksLoader.getItem(i);
 			StoreObject brand = item.getContent();
 			StoreObject existingBrand = sStore().findObject(brand.getName());
 			if (existingBrand != null) {

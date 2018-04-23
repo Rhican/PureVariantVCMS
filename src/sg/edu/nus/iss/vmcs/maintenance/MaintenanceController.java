@@ -13,11 +13,10 @@ import sg.edu.nus.iss.vmcs.customer.CustomerPanel;
 import sg.edu.nus.iss.vmcs.machinery.MachineryController;
 import sg.edu.nus.iss.vmcs.store.CashStoreItem;
 import sg.edu.nus.iss.vmcs.store.DrinksBrand;
-import sg.edu.nus.iss.vmcs.store.DrinksStoreItem;
 import sg.edu.nus.iss.vmcs.store.SnacksBrand;
-import sg.edu.nus.iss.vmcs.store.SnacksStoreItem;
 import sg.edu.nus.iss.vmcs.store.Store;
 import sg.edu.nus.iss.vmcs.store.StoreController;
+import sg.edu.nus.iss.vmcs.store.StoreItem;
 import sg.edu.nus.iss.vmcs.system.MainController;
 import sg.edu.nus.iss.vmcs.system.SimulatorControlPanel;
 import sg.edu.nus.iss.vmcs.util.MessageDialog;
@@ -131,10 +130,10 @@ public class MaintenanceController {
 	public void displayItems(int idx, int type) {
 		
 		StoreController sctrl = mCtrl.getStoreController();
+		StoreItem item;
 		if (type == Store.DRINK) {
-			DrinksStoreItem item;
 			try {
-				item = (DrinksStoreItem) sctrl.getStoreItem(Store.DRINK, idx);
+				item = sctrl.getStoreItem(Store.DRINK, idx);
 				DrinksBrand db = (DrinksBrand) item.getContent();
 				mpanel.getDrinksDisplay().displayQty(idx, item.getQuantity());
 				mpanel.displayPrice(db.getPrice(), Store.DRINK);
@@ -143,9 +142,8 @@ public class MaintenanceController {
 			}
 		}
 		else if (type == Store.SNACK) {
-			SnacksStoreItem item;
 			try {
-				item = (SnacksStoreItem) sctrl.getStoreItem(Store.SNACK, idx);
+				item = sctrl.getStoreItem(Store.SNACK, idx);
 				SnacksBrand db = (SnacksBrand) item.getContent();
 				mpanel.getSnacksDisplay().displayQty(idx, item.getQuantity());
 				mpanel.displayPrice(db.getPrice(), Store.SNACK);
