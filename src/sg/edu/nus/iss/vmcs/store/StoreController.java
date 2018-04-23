@@ -23,7 +23,7 @@ import sg.edu.nus.iss.vmcs.system.StoreLoaderStrategy.StoreSaleItemType;
  * @see CashStore
  * @see CashStoreItem
  * @see Coin
- * @see DrinksBrand
+ * @see ItemsBrand
  * @see DrinksStore
  * @see DrinksStoreItem
  * @see Store
@@ -185,7 +185,7 @@ public class StoreController {
 	 * - instruct the {@link CashStore} to update the quantity of a {@link Coin} denomination to new
 	 * value supplied and update the total cash held in the {@link CashStore}; or
 	 * <br>
-	 * - instruct the {@link DrinksStore} to update the drinks stock for a {@link DrinksBrand} required
+	 * - instruct the {@link DrinksStore} to update the drinks stock for a {@link ItemsBrand} required
 	 * to a new value supplied.
 	 * @param type the type of Store.
 	 * @param idx the index of the StoreItem.
@@ -234,9 +234,9 @@ public class StoreController {
 		DrinksStoreItem item;
 
 		item = (DrinksStoreItem) dStore().getStoreItem(idx);
-		DrinksBrand bd;
+		ItemsBrand bd;
 
-		bd = (DrinksBrand) item.getContent();
+		bd = (ItemsBrand) item.getContent();
 
 		bd.setPrice(pr);
 	}
@@ -246,9 +246,9 @@ public class StoreController {
 		StoreItem item;
 
 		item = sStore().getStoreItem(idx);
-		SnacksBrand sd;
+		ItemsBrand sd;
 
-		sd = (SnacksBrand) item.getContent();
+		sd = (ItemsBrand) item.getContent();
 
 		sd.setPrice(pr);
 	}

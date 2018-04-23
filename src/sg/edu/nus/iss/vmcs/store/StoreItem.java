@@ -15,7 +15,7 @@ package sg.edu.nus.iss.vmcs.store;
  * @see CashStore
  * @see CashStoreItem
  * @see Coin
- * @see DrinksBrand
+ * @see ItemsBrand
  * @see DrinksStore
  * @see DrinksStoreItem
  * @see Store

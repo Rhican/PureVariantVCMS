@@ -16,7 +16,7 @@ package sg.edu.nus.iss.vmcs.store;
  * @see CashStore
  * @see CashStoreItem
  * @see Coin
- * @see DrinksBrand
+ * @see ItemsBrand
  * @see DrinksStore
  * @see SnacksBrand
  * @see SnacksStore
@@ -35,7 +35,7 @@ public class SnacksStoreItem extends StoreItem {
 	 * @param ob the snacks brand&#46;
 	 * @param qty the snacks quantity&#46;
 	 */
-	public SnacksStoreItem(SnacksBrand ob, int qty) {
+	public SnacksStoreItem(ItemsBrand ob, int qty) {
 		super((StoreObject) ob, qty);
 	}
 }//End of class SnacksStoreItem

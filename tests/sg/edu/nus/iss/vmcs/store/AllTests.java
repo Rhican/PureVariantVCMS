@@ -17,10 +17,9 @@ public class AllTests {
 		  suite.addTestSuite(CashStoreItemTest.class);
 		  suite.addTestSuite(CashStoreTest.class);
 		  suite.addTestSuite(CoinTest.class);
-		  suite.addTestSuite(DrinksBrandTest.class);
+		  suite.addTestSuite(ItemsBrandTest.class);
 		  suite.addTestSuite(DrinksStoreItemTest.class);
 		  suite.addTestSuite(DrinksStoreTest.class);
-		  suite.addTestSuite(SnacksBrandTest.class);
 		  suite.addTestSuite(SnacksStoreItemTest.class);
 		  suite.addTestSuite(SnacksStoreTest.class);
 		  suite.addTestSuite(StoreControllerTest.class);

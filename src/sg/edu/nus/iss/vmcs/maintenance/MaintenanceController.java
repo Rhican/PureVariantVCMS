@@ -12,8 +12,7 @@ import java.awt.Frame;
 import sg.edu.nus.iss.vmcs.customer.CustomerPanel;
 import sg.edu.nus.iss.vmcs.machinery.MachineryController;
 import sg.edu.nus.iss.vmcs.store.CashStoreItem;
-import sg.edu.nus.iss.vmcs.store.DrinksBrand;
-import sg.edu.nus.iss.vmcs.store.SnacksBrand;
+import sg.edu.nus.iss.vmcs.store.ItemsBrand;
 import sg.edu.nus.iss.vmcs.store.Store;
 import sg.edu.nus.iss.vmcs.store.StoreController;
 import sg.edu.nus.iss.vmcs.store.StoreItem;
@@ -134,7 +133,7 @@ public class MaintenanceController {
 		if (type == Store.DRINK) {
 			try {
 				item = sctrl.getStoreItem(Store.DRINK, idx);
-				DrinksBrand db = (DrinksBrand) item.getContent();
+				ItemsBrand db = (ItemsBrand) item.getContent();
 				mpanel.getDrinksDisplay().displayQty(idx, item.getQuantity());
 				mpanel.displayPrice(db.getPrice(), Store.DRINK);
 			} catch (VMCSException e) {
@@ -144,7 +143,7 @@ public class MaintenanceController {
 		else if (type == Store.SNACK) {
 			try {
 				item = sctrl.getStoreItem(Store.SNACK, idx);
-				SnacksBrand db = (SnacksBrand) item.getContent();
+				ItemsBrand db = (ItemsBrand) item.getContent();
 				mpanel.getSnacksDisplay().displayQty(idx, item.getQuantity());
 				mpanel.displayPrice(db.getPrice(), Store.SNACK);
 			} catch (VMCSException e) {

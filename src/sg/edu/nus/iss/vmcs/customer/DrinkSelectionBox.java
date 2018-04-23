@@ -12,7 +12,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Panel;
 
-import sg.edu.nus.iss.vmcs.store.DrinksBrand;
+import sg.edu.nus.iss.vmcs.store.ItemsBrand;
 import sg.edu.nus.iss.vmcs.store.Store;
 import sg.edu.nus.iss.vmcs.store.StoreController;
 import sg.edu.nus.iss.vmcs.store.StoreItem;
@@ -52,7 +52,7 @@ public class DrinkSelectionBox extends Panel{
 		for(int i=0;i<drinkStoreItems.length;i++){
 			StoreItem storeItem=drinkStoreItems[i];
 			StoreObject storeObject=storeItem.getContent();
-			DrinksBrand drinksBrand=(DrinksBrand)storeObject;
+			ItemsBrand drinksBrand=(ItemsBrand)storeObject;
 			String drinksName=drinksBrand.getName();
 			int drinksPrice=drinksBrand.getPrice();
 			int drinksQuantity=storeItem.getQuantity();

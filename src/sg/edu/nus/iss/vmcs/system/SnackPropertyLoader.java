@@ -34,7 +34,7 @@ public class SnackPropertyLoader extends FilePropertyLoader {
 	 */
 	public StoreItem getItem(int index) {
 		int idx = index + 1;
-		SnacksBrand brand = new SnacksBrand();
+		ItemsBrand brand = new ItemsBrand();
 
 		String name = new String(NAME_LABEL + idx);
 		String value = getValue(name);
@@ -62,7 +62,7 @@ public class SnackPropertyLoader extends FilePropertyLoader {
 		int idx = index + 1;
 
 		SnacksStoreItem item = (SnacksStoreItem) snacksItem;
-		SnacksBrand brand = (SnacksBrand) item.getContent();
+		ItemsBrand brand = (ItemsBrand) item.getContent();
 		String itn = new String(NAME_LABEL + idx);
 		setValue(itn, brand.getName());
 

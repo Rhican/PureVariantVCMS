@@ -18,8 +18,7 @@ package sg.edu.nus.iss.vmcs.customer;
 import java.awt.Frame;
 
 import sg.edu.nus.iss.vmcs.VariantPointConstants;
-import sg.edu.nus.iss.vmcs.store.DrinksBrand;
-import sg.edu.nus.iss.vmcs.store.SnacksBrand;
+import sg.edu.nus.iss.vmcs.store.ItemsBrand;
 import sg.edu.nus.iss.vmcs.store.Store;
 import sg.edu.nus.iss.vmcs.store.StoreItem;
 import sg.edu.nus.iss.vmcs.system.MainController;
@@ -120,14 +119,14 @@ public class TransactionController {
 		{
 			setSelection(identifier);
 			StoreItem storeItem=mainCtrl.getStoreController().getStoreItem(Store.DRINK,identifier);
-			DrinksBrand drinksBrand=(DrinksBrand)storeItem.getContent();
+			ItemsBrand drinksBrand=(ItemsBrand)storeItem.getContent();
 			setPrice(drinksBrand.getPrice());
 		}
 		else if (type == Store.SNACK)
 		{
 			setSelection(identifier);
 			StoreItem storeItem=mainCtrl.getStoreController().getStoreItem(Store.SNACK,identifier);
-			SnacksBrand snacksBrand=(SnacksBrand)storeItem.getContent();
+			ItemsBrand snacksBrand=(ItemsBrand)storeItem.getContent();
 			setPrice(snacksBrand.getPrice());
 		}
 		

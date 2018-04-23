@@ -64,7 +64,7 @@ public class DrinksStoreTest extends TestCase{
 		storeController.initialize();
 		DrinksStore drinksStore=(DrinksStore)storeController.getStore(Store.DRINK);
 		int storeSize=drinksStore.getStoreSize();
-		DrinksBrand drinksBrand=new DrinksBrand();
+		ItemsBrand drinksBrand=new ItemsBrand();
 		DrinksStoreItem drinksStoreItem=new DrinksStoreItem(drinksBrand,1);
 		//Act addItem
 		drinksStore.addItem(storeSize, drinksStoreItem);

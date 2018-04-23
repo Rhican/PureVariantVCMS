@@ -7,8 +7,7 @@
  */
 package sg.edu.nus.iss.vmcs.customer;
 
-import sg.edu.nus.iss.vmcs.store.DrinksBrand;
-import sg.edu.nus.iss.vmcs.store.SnacksBrand;
+import sg.edu.nus.iss.vmcs.store.ItemsBrand;
 import sg.edu.nus.iss.vmcs.store.Store;
 import sg.edu.nus.iss.vmcs.store.StoreController;
 import sg.edu.nus.iss.vmcs.store.StoreItem;
@@ -46,7 +45,7 @@ public class DispenseController implements DispenseComponent {
 		for(int i=0;i<storeSize;i++){
 			StoreItem storeItem=txCtrl.getMainController().getStoreController().getStoreItem(Store.DRINK,i);
 			int quantity=storeItem.getQuantity();
-			DrinksBrand drinksBrand=(DrinksBrand)storeItem.getContent();
+			ItemsBrand drinksBrand=(ItemsBrand)storeItem.getContent();
 			String name=drinksBrand.getName();
 			int price=drinksBrand.getPrice();
 			custPanel.getDrinkSelectionBox().update(i, quantity, price, name);
@@ -67,7 +66,7 @@ public class DispenseController implements DispenseComponent {
 		for(int i=0;i<storeSize;i++){
 			StoreItem storeItem=txCtrl.getMainController().getStoreController().getStoreItem(Store.SNACK,i);
 			int quantity=storeItem.getQuantity();
-			SnacksBrand snacksBrand=(SnacksBrand)storeItem.getContent();
+			ItemsBrand snacksBrand=(ItemsBrand)storeItem.getContent();
 			String name=snacksBrand.getName();
 			int price=snacksBrand.getPrice();
 			custPanel.getDrinkSelectionBox().update(i, quantity, price, name);
@@ -155,7 +154,7 @@ public class DispenseController implements DispenseComponent {
 			StoreController storeCtrl=mainCtrl.getStoreController();
 			StoreItem drinkStoreItem=storeCtrl.getStore(Store.DRINK).getStoreItem(selectedBrand);
 			StoreObject storeObject=drinkStoreItem.getContent();
-			DrinksBrand drinksBrand=(DrinksBrand)storeObject;
+			ItemsBrand drinksBrand=(ItemsBrand)storeObject;
 			String drinksName=drinksBrand.getName();
 			int price=drinksBrand.getPrice();
 			int quantity=drinkStoreItem.getQuantity();
@@ -190,7 +189,7 @@ public class DispenseController implements DispenseComponent {
 			StoreController storeCtrl=mainCtrl.getStoreController();
 			StoreItem snackStoreItem=storeCtrl.getStore(Store.SNACK).getStoreItem(selectedSnack);
 			StoreObject storeObject=snackStoreItem.getContent();
-			SnacksBrand snacksBrand=(SnacksBrand)storeObject;
+			ItemsBrand snacksBrand=(ItemsBrand)storeObject;
 			String snacksName=snacksBrand.getName();
 			int price=snacksBrand.getPrice();
 			int quantity=snackStoreItem.getQuantity();

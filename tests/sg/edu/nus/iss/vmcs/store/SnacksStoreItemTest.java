@@ -21,7 +21,7 @@ public class SnacksStoreItemTest extends TestCase{
 	
 	@Test
 	public void testSnacksStoreItemConstructor() throws Exception{
-		SnacksBrand snacksBrand=new SnacksBrand("XYZ",80);
+		ItemsBrand snacksBrand=new ItemsBrand("XYZ",80);
 		int qty1=10;
 		//Act
 		SnacksStoreItem snacksStoreItem=new SnacksStoreItem(snacksBrand,qty1);
@@ -42,11 +42,11 @@ public class SnacksStoreItemTest extends TestCase{
 		int storeSize=snackStore.getStoreSize();
 		for(int i=0;i<storeSize;i++){
 			SnacksStoreItem snackStoreItem=(SnacksStoreItem)snackStore.getStoreItem(i);
-			SnacksBrand snacksBrand1=new SnacksBrand();
+			ItemsBrand snacksBrand1=new ItemsBrand();
 			//Act setContent
 			snackStoreItem.setContent(snacksBrand1);
 			//Act getContent
-			SnacksBrand snacksBrand2=(SnacksBrand)snackStoreItem.getContent();
+			ItemsBrand snacksBrand2=(ItemsBrand)snackStoreItem.getContent();
 			//Assert
 			assertNotNull(snacksBrand2);
 			assertSame(snacksBrand1,snacksBrand2);
@@ -63,7 +63,7 @@ public class SnacksStoreItemTest extends TestCase{
 		int storeSize=snacksStore.getStoreSize();
 		for(int i=0;i<storeSize;i++){
 			SnacksStoreItem snacksStoreItem=(SnacksStoreItem)snacksStore.getStoreItem(i);
-			SnacksBrand snacksBrand1=new SnacksBrand();
+			ItemsBrand snacksBrand1=new ItemsBrand();
 			snacksStoreItem.setContent(snacksBrand1);
 			int qty1=12;
 			//Act setQuantity
@@ -85,10 +85,10 @@ public class SnacksStoreItemTest extends TestCase{
 		int storeSize=snacksStore.getStoreSize();
 		for(int i=0;i<storeSize;i++){
 			SnacksStoreItem snacksStoreItem=(SnacksStoreItem)snacksStore.getStoreItem(i);
-			SnacksBrand snacksBrand1=(SnacksBrand)snacksStoreItem.getContent();
+			ItemsBrand snacksBrand1=(ItemsBrand)snacksStoreItem.getContent();
 			//Act store
 			snacksStoreItem.store();
-			SnacksBrand snacksBrand2=(SnacksBrand)snacksStoreItem.getContent();
+			ItemsBrand snacksBrand2=(ItemsBrand)snacksStoreItem.getContent();
 			//Assert
 			assertNotNull(snacksBrand2);
 			assertSame(snacksBrand1,snacksBrand2);

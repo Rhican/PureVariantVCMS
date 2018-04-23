@@ -79,7 +79,7 @@ public class StoreControllerTest extends TestCase{
 		storeSize=drinksStore.getStoreSize();
 		for(int i=0;i<storeSize;i++){
 			DrinksStoreItem drinksStoreItem=(DrinksStoreItem)drinksStore.getStoreItem(i);
-			DrinksBrand drinksBrand=(DrinksBrand)drinksStoreItem.getContent();
+			ItemsBrand drinksBrand=(ItemsBrand)drinksStoreItem.getContent();
 			//Assert
 			assertNotNull(drinksBrand);
 		}
@@ -99,7 +99,7 @@ public class StoreControllerTest extends TestCase{
 		int storeSize=drinksStore.getStoreSize();
 		for(int i=0;i<storeSize;i++){
 			DrinksStoreItem drinksStoreItem=(DrinksStoreItem)drinksStore.getStoreItem(i);
-			DrinksBrand drinksBrand=(DrinksBrand)drinksStoreItem.getContent();
+			ItemsBrand drinksBrand=(ItemsBrand)drinksStoreItem.getContent();
 			//Assert
 			assertNotNull(drinksBrand);
 		}
@@ -172,7 +172,7 @@ public class StoreControllerTest extends TestCase{
 		storeSize=storeController.getStoreSize(Store.DRINK);
 		for(int i=0;i<storeSize;i++){
 			DrinksStoreItem drinksStoreItem=(DrinksStoreItem)drinksStore.getStoreItem(i);
-			DrinksBrand drinksBrand=(DrinksBrand)drinksStoreItem.getContent();
+			ItemsBrand drinksBrand=(ItemsBrand)drinksStoreItem.getContent();
 			//Assert
 			assertNotNull(drinksBrand);
 		}
@@ -271,7 +271,7 @@ public class StoreControllerTest extends TestCase{
 			//Act setPrice
 			storeController.setPrice(i, price1, Store.DRINK);
 			DrinksStoreItem drinksStoreItem=((DrinksStoreItem)storeController.getStoreItem(Store.DRINK, i));
-			DrinksBrand drinksBrand=(DrinksBrand)drinksStoreItem.getContent();
+			ItemsBrand drinksBrand=(ItemsBrand)drinksStoreItem.getContent();
 			int price2=drinksBrand.getPrice();
 			//Assert
 			assertEquals(price1,price2);
