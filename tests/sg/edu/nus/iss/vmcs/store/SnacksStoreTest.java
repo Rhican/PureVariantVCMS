@@ -65,7 +65,8 @@ public class SnacksStoreTest extends TestCase{
 		SnacksStore snacksStore=(SnacksStore)storeController.getStore(Store.SNACK);
 		int storeSize=snacksStore.getStoreSize();
 		ItemsBrand snacksBrand=new ItemsBrand();
-		SnacksStoreItem snacksStoreItem=new SnacksStoreItem(snacksBrand,1);
+		//SnacksStoreItem snacksStoreItem=new SnacksStoreItem(snacksBrand,1);
+		StoreItem snacksStoreItem=new StoreItem(snacksBrand,1);
 		//Act addItem
 		snacksStore.addItem(storeSize, snacksStoreItem);
 		int storeSize1=snacksStore.getStoreSize();
@@ -102,7 +103,7 @@ public class SnacksStoreTest extends TestCase{
 		SnacksStore snacksStore=(SnacksStore)storeController.getStore(Store.SNACK);
 		int storeSize=snacksStore.getStoreSize();
 		for(int i=0;i<storeSize;i++){
-			SnacksStoreItem snacksStoreItem=(SnacksStoreItem)snacksStore.getStoreItem(i);
+			StoreItem snacksStoreItem=snacksStore.getStoreItem(i);
 			StoreObject storeObject1=snacksStoreItem.getContent();
 			//Act findObject
 			StoreObject storeObject2=snacksStore.findObject(storeObject1.getName());
@@ -120,7 +121,7 @@ public class SnacksStoreTest extends TestCase{
 		SnacksStore snacksStore=(SnacksStore)storeController.getStore(Store.SNACK);
 		int storeSize=snacksStore.getStoreSize();
 		for(int i=0;i<storeSize;i++){
-			SnacksStoreItem snacksStoreItem=(SnacksStoreItem)snacksStore.getStoreItem(i);
+			StoreItem snacksStoreItem=snacksStore.getStoreItem(i);
 			int qty1=snacksStoreItem.getQuantity();
 			//Act setQuantity
 			snacksStoreItem.setQuantity(qty1);

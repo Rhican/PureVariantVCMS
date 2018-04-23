@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import sg.edu.nus.iss.vmcs.system.CashPropertyLoader;
-import sg.edu.nus.iss.vmcs.system.DrinkPropertyLoader;
 import sg.edu.nus.iss.vmcs.system.Environment;
 import sg.edu.nus.iss.vmcs.system.MainController;
 import sg.edu.nus.iss.vmcs.system.StoreLoaderStrategy;
@@ -78,7 +77,7 @@ public class StoreControllerTest extends TestCase{
 		DrinksStore drinksStore=(DrinksStore)storeController.getStore(Store.DRINK);
 		storeSize=drinksStore.getStoreSize();
 		for(int i=0;i<storeSize;i++){
-			DrinksStoreItem drinksStoreItem=(DrinksStoreItem)drinksStore.getStoreItem(i);
+			StoreItem drinksStoreItem=drinksStore.getStoreItem(i);
 			ItemsBrand drinksBrand=(ItemsBrand)drinksStoreItem.getContent();
 			//Assert
 			assertNotNull(drinksBrand);
@@ -98,7 +97,7 @@ public class StoreControllerTest extends TestCase{
 		DrinksStore drinksStore=(DrinksStore)storeController.getStore(Store.DRINK);
 		int storeSize=drinksStore.getStoreSize();
 		for(int i=0;i<storeSize;i++){
-			DrinksStoreItem drinksStoreItem=(DrinksStoreItem)drinksStore.getStoreItem(i);
+			StoreItem drinksStoreItem=drinksStore.getStoreItem(i);
 			ItemsBrand drinksBrand=(ItemsBrand)drinksStoreItem.getContent();
 			//Assert
 			assertNotNull(drinksBrand);
@@ -171,7 +170,7 @@ public class StoreControllerTest extends TestCase{
 		//Act getStoreSize and test looping the store with the store size
 		storeSize=storeController.getStoreSize(Store.DRINK);
 		for(int i=0;i<storeSize;i++){
-			DrinksStoreItem drinksStoreItem=(DrinksStoreItem)drinksStore.getStoreItem(i);
+			StoreItem drinksStoreItem=drinksStore.getStoreItem(i);
 			ItemsBrand drinksBrand=(ItemsBrand)drinksStoreItem.getContent();
 			//Assert
 			assertNotNull(drinksBrand);
@@ -197,7 +196,7 @@ public class StoreControllerTest extends TestCase{
 		//Act getStoreItems
 		StoreItem[] drinksStoreItems=storeController.getStoreItems(Store.DRINK);
 		for(int i=0;i<drinksStoreItems.length;i++){
-			DrinksStoreItem drinksStoreItem=(DrinksStoreItem)drinksStoreItems[i];
+			StoreItem drinksStoreItem=drinksStoreItems[i];
 			//Assert
 			assertNotNull(drinksStoreItem);
 		}
@@ -226,7 +225,7 @@ public class StoreControllerTest extends TestCase{
 			int qty1=14+i;
 			//Act changeStoreQty
 			storeController.changeStoreQty(Store.DRINK, i, qty1);
-			DrinksStoreItem drinksStoreItem=(DrinksStoreItem)drinksStore.getStoreItem(i);
+			StoreItem drinksStoreItem=drinksStore.getStoreItem(i);
 			int qty2=drinksStoreItem.getQuantity();
 			//Assert
 			assertEquals(qty1,qty2);
@@ -251,7 +250,7 @@ public class StoreControllerTest extends TestCase{
 		storeSize=drinksStore.getStoreSize();
 		for(int i=0;i<storeSize;i++){
 			//Act getStoreItem
-			DrinksStoreItem drinksStoreItem=(DrinksStoreItem)storeController.getStoreItem(Store.DRINK, i);
+			StoreItem drinksStoreItem=storeController.getStoreItem(Store.DRINK, i);
 			//Assert
 			assertNotNull(drinksStoreItem);
 		}
@@ -270,7 +269,7 @@ public class StoreControllerTest extends TestCase{
 			int price1=60+i;
 			//Act setPrice
 			storeController.setPrice(i, price1, Store.DRINK);
-			DrinksStoreItem drinksStoreItem=((DrinksStoreItem)storeController.getStoreItem(Store.DRINK, i));
+			StoreItem drinksStoreItem=(storeController.getStoreItem(Store.DRINK, i));
 			ItemsBrand drinksBrand=(ItemsBrand)drinksStoreItem.getContent();
 			int price2=drinksBrand.getPrice();
 			//Assert
@@ -352,7 +351,7 @@ public class StoreControllerTest extends TestCase{
 		DrinksStore drinksStore=(DrinksStore)storeController.getStore(Store.DRINK);
 		int storeSize=drinksStore.getStoreSize();
 		for(int i=0;i<storeSize;i++){
-			DrinksStoreItem drinksStoreItem=(DrinksStoreItem)drinksStore.getStoreItem(i);
+			StoreItem drinksStoreItem=drinksStore.getStoreItem(i);
 			int qty1=drinksStoreItem.getQuantity();
 			if(qty1==0)
 				continue;

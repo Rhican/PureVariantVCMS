@@ -99,7 +99,7 @@ public class StoreController {
 		dStore().setStoreSize(numOfItems);
 
 		for (int i = 0; i < numOfItems; i++) {
-            DrinksStoreItem item = (DrinksStoreItem) drinksLoader.getItem(i);
+			StoreItem item = drinksLoader.getItem(i);
 			StoreObject brand = item.getContent();
 			StoreObject existingBrand = dStore().findObject(brand.getName());
 			if (existingBrand != null) {
@@ -231,9 +231,9 @@ public class StoreController {
 	private void setDrinkPrice(int idx, int pr)  {
 		if (dStore() == null) return;
 		
-		DrinksStoreItem item;
+		StoreItem item;
 
-		item = (DrinksStoreItem) dStore().getStoreItem(idx);
+		item = dStore().getStoreItem(idx);
 		ItemsBrand bd;
 
 		bd = (ItemsBrand) item.getContent();
@@ -360,8 +360,8 @@ public class StoreController {
 	 * @param idx the index of the drinks to be dispensed&#46;
 	 */
 	public void dispenseDrink(int idx)  {
-		DrinksStoreItem item;
-		item = (DrinksStoreItem) getStoreItem(Store.DRINK, idx);
+		StoreItem item;
+		item = getStoreItem(Store.DRINK, idx);
 		item.decrement();
 	}
 
