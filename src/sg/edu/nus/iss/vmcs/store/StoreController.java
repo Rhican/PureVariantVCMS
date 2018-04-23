@@ -120,7 +120,7 @@ public class StoreController {
 		sStore().setStoreSize(numOfItems);
 
 		for (int i = 0; i < numOfItems; i++) {
-            SnacksStoreItem item = (SnacksStoreItem) snacksLoader.getItem(i);
+            StoreItem item = (StoreItem) snacksLoader.getItem(i);
 			StoreObject brand = item.getContent();
 			StoreObject existingBrand = sStore().findObject(brand.getName());
 			if (existingBrand != null) {
@@ -243,9 +243,9 @@ public class StoreController {
 	
 	private void setSnackPrice(int idx, int pr)  {
 		if (sStore() == null) return;
-		SnacksStoreItem item;
+		StoreItem item;
 
-		item = (SnacksStoreItem) sStore().getStoreItem(idx);
+		item = sStore().getStoreItem(idx);
 		SnacksBrand sd;
 
 		sd = (SnacksBrand) item.getContent();
