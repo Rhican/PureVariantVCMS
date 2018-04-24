@@ -33,7 +33,7 @@ import sg.edu.nus.iss.vmcs.system.SimulatorControlPanel;
 public class TransactionController {
 	private MainController mainCtrl;
 	private CustomerPanel custPanel;
-	private DispenseComponent dispenseCtrl;
+	private DispenseControllerDecorator dispenseCtrl;
 	private ChangeGiver changeGiver;
 	private PaymentDecorator paymentDecorator;
 
@@ -47,7 +47,7 @@ public class TransactionController {
 	private int selection=-1, selectedType = Store.DRINK;
 	
 	public TransactionController(MainController mainCtrl, CustomerPanel custPanel
-			, DispenseComponent dispenseCtrl, ChangeGiver changeGiver, PaymentDecorator paymentDecorator) {
+			, DispenseControllerDecorator dispenseCtrl, ChangeGiver changeGiver, PaymentDecorator paymentDecorator) {
 		this.mainCtrl = mainCtrl;
 		this.custPanel = custPanel;
 		this.dispenseCtrl = dispenseCtrl;

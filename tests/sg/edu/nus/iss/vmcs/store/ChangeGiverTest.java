@@ -10,7 +10,7 @@ import sg.edu.nus.iss.vmcs.VariantPointConstants;
 import sg.edu.nus.iss.vmcs.customer.CardPaymentController;
 import sg.edu.nus.iss.vmcs.customer.ChangeGiver;
 import sg.edu.nus.iss.vmcs.customer.CustomerPanel;
-import sg.edu.nus.iss.vmcs.customer.DispenseComponent;
+import sg.edu.nus.iss.vmcs.customer.DispenseControllerDecorator;
 import sg.edu.nus.iss.vmcs.customer.PaymentDecorator;
 import sg.edu.nus.iss.vmcs.customer.TransactionController;
 import sg.edu.nus.iss.vmcs.machinery.MachineryController;
@@ -28,7 +28,7 @@ public class ChangeGiverTest extends TestCase {
 	@Mock
 	CustomerPanel custPanel;
 	@Mock
-	DispenseComponent dispenseCtrl;
+	DispenseControllerDecorator dispenseCtrl;
 	@Mock
 	PaymentDecorator paymentDecorator;
 	@Mock
