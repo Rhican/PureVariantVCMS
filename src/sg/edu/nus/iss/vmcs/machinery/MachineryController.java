@@ -138,8 +138,23 @@ public class MachineryController {
 	public void displayDrinkStock() throws VMCSException {
 		if (ml == null)
 			return;
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('Drink'))
+		 */
 		ml.getDrinksStoreDisplay().update();
+		/**
+	     * PV:ENDCOND 
+	     */
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('Snack'))
+		 */
 		ml.getSnacksStoreDisplay().update();
+		/**
+	     * PV:ENDCOND 
+	     */
+		
 	}
 
 	/**

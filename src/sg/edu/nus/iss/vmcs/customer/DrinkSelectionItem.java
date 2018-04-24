@@ -42,6 +42,7 @@ public class DrinkSelectionItem extends Panel{
 	private boolean isActive=false;
 	private boolean isWarningOn=false;
 	
+	private VariantPointConstants VariantPointConstants = new VariantPointConstants();
 	/**
 	 * This constructor creates an instance of the DrinkSelectionItem&#46;
 	 * @param drinkName the name of the drink&#46;
@@ -180,7 +181,7 @@ public class DrinkSelectionItem extends Panel{
 		if (isOn)
 			wnd.setLabel(WarningText);
 		else 
-			wnd.setLabel((VariantPointConstants.vShowLowStock && quantity <= LowStockThreshold) 
+			wnd.setLabel((VariantPointConstants.isvShowLowStock() && quantity <= LowStockThreshold) 
 					? LowStockText : NormalText);
 	}
 	

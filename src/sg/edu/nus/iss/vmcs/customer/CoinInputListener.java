@@ -22,6 +22,8 @@ import sg.edu.nus.iss.vmcs.VariantPointConstants;
  */
 public class CoinInputListener implements ActionListener{
 	private TransactionController txController;
+	
+	private VariantPointConstants VariantPointConstants = new VariantPointConstants();
 	/**
 	 * This constructor creates an instance of the Coin Input Listener
 	 * @param coinReceiver the Coin Receiver
@@ -36,10 +38,18 @@ public class CoinInputListener implements ActionListener{
 	public void actionPerformed(ActionEvent ev){
 		CoinButton coinButton=(CoinButton)ev.getSource();
 		if (txController.getPaymentDecorator() == null) {
-			txController.setPaymentDecorator(
-					VariantPointConstants.vLogPayment
-						? new PaymentLogDecorator(new CoinReceiver(txController))
-						: new PaymentDecorator(new CoinReceiver(txController)));
+			
+			/**
+			 * PV:IFCOND(pv:hasFeature('LogPayment'))
+			 */
+			txController.setPaymentDecorator(new PaymentLogDecorator(new CoinReceiver(txController)));
+			/**
+		     * PV:ELSECOND 
+		     */
+			txController.setPaymentDecorator(new PaymentDecorator(new CoinReceiver(txController)));
+			/**
+		     * PV:ENDCOND 
+		     */
 		}
 		txController.getPaymentDecorator().makePayment(String.valueOf(coinButton.getWeight()));
 	}

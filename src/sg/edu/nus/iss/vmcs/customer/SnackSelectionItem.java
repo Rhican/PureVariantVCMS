@@ -42,6 +42,8 @@ public class SnackSelectionItem extends Panel{
 	private boolean isActive=false;
 	private boolean isWarningOn=false;
 	
+	private VariantPointConstants VariantPointConstants = new VariantPointConstants();
+	
 	/**
 	 * This constructor creates an instance of the SnackSelectionItem&#46;
 	 * @param snackName the name of the snack&#46;
@@ -180,7 +182,7 @@ public class SnackSelectionItem extends Panel{
 		if (isOn)
 			wnd.setLabel(WarningText);
 		else 
-			wnd.setLabel((VariantPointConstants.vShowLowStock && quantity <= LowStockThreshold) 
+			wnd.setLabel((VariantPointConstants.isvShowLowStock() && quantity <= LowStockThreshold) 
 					? LowStockText : NormalText);
 	}
 	

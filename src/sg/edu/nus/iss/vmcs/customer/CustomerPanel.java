@@ -95,16 +95,47 @@ public class CustomerPanel extends Dialog {
 	private Panel pan0=new Panel(), pan1 = new Panel();
     private Label lblTitle=new Label("VMCS Soft Drinks Dispenser");
     private Label lblEnterCoins=new Label("Enter Coins Here");
+
+    /**
+	 * PV:IFCOND(pv:hasFeature('PaymentByCash'))
+	 */
     private CoinInputBox coinInputBox;
+	/**
+     * PV:ENDCOND 
+     */
+	
+	/**
+	 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+	 */
     private CardDetector cardDetector;
+	/**
+     * PV:ENDCOND 
+     */
+    
+    /**
+	 * PV:IFCOND(pv:hasFeature('Drink'))
+	 */
     private DrinkSelectionBox drinkSelectionBox;
+	/**
+     * PV:ENDCOND 
+     */
+	
+	/**
+	 * PV:IFCOND(pv:hasFeature('Snack'))
+	 */
     private SnackSelectionBox snackSelectionBox;
+	/**
+     * PV:ENDCOND 
+     */
+    
     private WarningDisplay wndInvalidCoin=new WarningDisplay("Invalid Coin");
     private LabelledValue lbdTotalMoneyInserted=new LabelledValue("Total Money Inserted:","0 C",50);
     private WarningDisplay wndNoChangeAvailable=new WarningDisplay("No Change Available");
     private Button btnTerminate=new Button("Terminate and Return Cash");
     private LabelledValue lbdCollectCoins=new LabelledValue("Collect Coins:","0 C",50);
     private LabelledValue lbdCollectCan=new LabelledValue("Collect Can Here:","",100);
+    
+    private VariantPointConstants VariantPointConstants = new VariantPointConstants();
     
     /**
      * This constructor creates an instance of the Customer Panel&#46; It further
@@ -128,23 +159,55 @@ public class CustomerPanel extends Dialog {
 			}
 		});
 		
-		if (VariantPointConstants.vCashPayment) {
-			coinInputBox=new CoinInputBox(txCtrl);
-		}
-		if (VariantPointConstants.vCardPayment) {
-			cardDetector=new CardDetector(txCtrl);
-		}
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCash'))
+		 */
+		coinInputBox=new CoinInputBox(txCtrl);
+		/**
+	     * PV:ENDCOND 
+	     */
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+		 */
+		cardDetector=new CardDetector(txCtrl);
+		/**
+	     * PV:ENDCOND 
+	     */
+		
+		 /**
+		 * PV:IFCOND(pv:hasFeature('Drink'))
+		 */
 		drinkSelectionBox=new DrinkSelectionBox(txCtrl);
+		/**
+	     * PV:ENDCOND 
+	     */
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('Snack'))
+		 */
 		snackSelectionBox =new SnackSelectionBox(txCtrl);
+		/**
+	     * PV:ENDCOND 
+	     */
 			
 		TerminateButtonListener terminateButtonListener=new TerminateButtonListener(txCtrl);
 		
-		if (VariantPointConstants.vCashPayment) {
-			coinInputBox.setActive(false);
-		}
-		if (VariantPointConstants.vCardPayment) {
-			cardDetector.setActive(false);
-		}
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCash'))
+		 */
+		coinInputBox.setActive(false);
+		/**
+	     * PV:ENDCOND 
+	     */
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+		 */
+		cardDetector.setActive(false);
+		/**
+	     * PV:ENDCOND 
+	     */
 		
 		btnTerminate.addActionListener(terminateButtonListener);
 		
@@ -153,19 +216,29 @@ public class CustomerPanel extends Dialog {
 		
 		pan0.setLayout(new GridBagLayout());
 		int i = 0;
-		if (VariantPointConstants.vCashPayment) {
-			pan0.add(lblEnterCoins,new GridBagConstraints(0,i++,1,1,1.0,0.0,
-				    GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,
-				    new Insets(5,0,0,0),10,0));
-			pan0.add(coinInputBox,new GridBagConstraints(0,i++,0,1,1.0,0.0,
-				    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
-				    new Insets(2,0,0,0),10,0));
-		}
-		if (VariantPointConstants.vCardPayment) {
-			pan0.add(cardDetector,new GridBagConstraints(0,i++,1,1,1.0,0.0,
-				    GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,
-				    new Insets(5,0,0,0),10,0));
-		}
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCash'))
+		 */
+		pan0.add(lblEnterCoins,new GridBagConstraints(0,i++,1,1,1.0,0.0,
+			    GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,
+			    new Insets(5,0,0,0),10,0));
+		pan0.add(coinInputBox,new GridBagConstraints(0,i++,0,1,1.0,0.0,
+			    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
+			    new Insets(2,0,0,0),10,0));
+		/**
+	     * PV:ENDCOND 
+	     */
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+		 */
+		pan0.add(cardDetector,new GridBagConstraints(0,i++,1,1,1.0,0.0,
+			    GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,
+			    new Insets(5,0,0,0),10,0));
+		/**
+	     * PV:ENDCOND 
+	     */
+		
 		pan0.add(wndInvalidCoin,new GridBagConstraints(0,i++,1,1,1.0,0.0,
 			    GridBagConstraints.WEST,GridBagConstraints.HORIZONTAL,
 			    new Insets(5,0,0,0),10,0));
@@ -176,20 +249,36 @@ public class CustomerPanel extends Dialog {
 		
 		pan1.setLayout(new GridBagLayout());
 		
+		 /**
+		 * PV:IFCOND(pv:hasFeature('Drink'))
+		 */
 		if (drinkSelectionBox.Count() > 0) {
 			drinkSelectionBox.setActive(true);
 			pan1.add(drinkSelectionBox,new GridBagConstraints(0,0,0,1,0.0,0.0,
 				    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
 				    new Insets(5,0,0,0),10,0));
-		}			
+		}
+		/**
+	     * PV:ENDCOND 
+	     */
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('Snack'))
+		 */
 		if (snackSelectionBox.Count() > 0) {
 			snackSelectionBox.setActive(true);
 			pan1.add(snackSelectionBox,new GridBagConstraints(0,0,0,1,0.0,0.0,
 				    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
 				    new Insets(5,0,0,0),10,0));
 		}
+		/**
+	     * PV:ENDCOND 
+	     */
 		
-		
+					
+		/**
+		 * PV:IFCOND(pv:hasFeature('Drink') AND pv:hasFeature('Snack'))
+		 */
 		if (drinkSelectionBox.Count() > 0 && snackSelectionBox.Count() >0)
 		{
 			JToggleButton jtb = new JToggleButton("snacks");
@@ -209,7 +298,10 @@ public class CustomerPanel extends Dialog {
 			pan1.add(jtb,new GridBagConstraints(0,1,0,1,0.0,0.0,
 				    GridBagConstraints.EAST,GridBagConstraints.NONE,
 				    new Insets(5,0,0,0),10,0));
-		}		
+		}
+		/**
+	     * PV:ENDCOND 
+	     */
 
 		pan0.add(pan1,new GridBagConstraints(0,i++,0,1,0.0,0.0,
 			    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
@@ -219,11 +311,15 @@ public class CustomerPanel extends Dialog {
 			    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
 			    new Insets(5,0,0,0),10,0));
 
-		if (VariantPointConstants.vCashPayment) {
-			pan0.add(wndNoChangeAvailable,new GridBagConstraints(0,i++,0,1,0.0,0.0,
-				    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
-				    new Insets(5,0,0,0),10,0));
-		}
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+		 */
+		pan0.add(wndNoChangeAvailable,new GridBagConstraints(0,i++,0,1,0.0,0.0,
+			    GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,
+			    new Insets(5,0,0,0),10,0));
+		/**
+	     * PV:ENDCOND 
+	     */
 		
 		pan0.add(btnTerminate,new GridBagConstraints(0,i++,0,1,0.0,0.0,
 			    GridBagConstraints.CENTER,GridBagConstraints.NONE,
@@ -390,8 +486,15 @@ public class CustomerPanel extends Dialog {
 	 * FALSE to deactivate it.
 	 */
 	public void setDrinkSelectionBoxActive(boolean active){
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('Drink'))
+		 */
 		drinkSelectionBox.setActive(active);
 		drinkSelectionBox.setActive(active);
+		/**
+	     * PV:ENDCOND 
+	     */
 	}
 	
 	/**
@@ -399,13 +502,27 @@ public class CustomerPanel extends Dialog {
 	 * @param active the active status of the CoinInputBox; TRUE to activate,
 	 * FALSE to deactivate it.
 	 */
+	
+	/**
+	 * PV:IFCOND(pv:hasFeature('PaymentByCash'))
+	 */
 	public void setCoinInputBoxActive(boolean active){
 		coinInputBox.setActive(active);
 	}
+	/**
+     * PV:ENDCOND 
+     */
 	
+	/**
+	 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+	 */
 	public void setCardDetectorActive(boolean active){
 		cardDetector.setActive(active);
 	}
+	/**
+     * PV:ENDCOND 
+     */
+	
 	
 	/**
 	 * This method activates or deactivates the Terminate Button
@@ -420,14 +537,30 @@ public class CustomerPanel extends Dialog {
 	 * This method returns the CoinInputBox in the CustomerPanel.
 	 * @return the CoinInputBox display in the CustomerPanel.
 	 */
+	/**
+	 * PV:IFCOND(pv:hasFeature('PaymentByCash'))
+	 */
 	public CoinInputBox getCoinInputBox(){
 		return coinInputBox;
 	}
+	/**
+     * PV:ENDCOND 
+     */
 	
+	/**
+	 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+	 */
 	public CardDetector getCardDetector(){
 		return cardDetector;
 	}
+	/**
+     * PV:ENDCOND 
+     */
 	
+	
+	/**
+	 * PV:IFCOND(pv:hasFeature('Drink'))
+	 */
 	/**
 	 * This method returns the DrinkSelectionBox in the CustomerPanel.
 	 * @return the DrinkSelectionBox in the CustomerPanel.
@@ -435,6 +568,13 @@ public class CustomerPanel extends Dialog {
 	public DrinkSelectionBox getDrinkSelectionBox(){
 		return drinkSelectionBox;
 	}
+	/**
+     * PV:ENDCOND 
+     */
+	
+	/**
+	 * PV:IFCOND(pv:hasFeature('Snack'))
+	 */
 	
 	/**
 	 * This method returns the DrinkSelectionBox in the CustomerPanel.
@@ -443,6 +583,9 @@ public class CustomerPanel extends Dialog {
 	public SnackSelectionBox getSnackSelectionBox(){
 		return snackSelectionBox;
 	}
+	/**
+     * PV:ENDCOND 
+     */
 	
 	
 	/**

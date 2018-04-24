@@ -18,6 +18,8 @@ public class CardPayment implements PaymentController {
 	
 	private boolean isPaymentSuccess;
 	
+	private VariantPointConstants VariantPointConstants = new VariantPointConstants();
+	
 	/**
 	 * This constructor creates an instance of the object.
 	 * @param txCtrl the transaction controller.
@@ -78,9 +80,14 @@ public class CardPayment implements PaymentController {
 	 */
 	public void setActive(boolean active){
 		txCtrl.getCustomerPanel().setCardDetectorActive(active);
-		if (VariantPointConstants.vCashPayment) {
-			txCtrl.getCustomerPanel().setCoinInputBoxActive(!active);
-		}
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCash'))
+		 */
+		txCtrl.getCustomerPanel().setCoinInputBoxActive(!active);
+		/**
+	     * PV:ENDCOND 
+	     */
 	}
 
 	public boolean isPaymentSuccess() {

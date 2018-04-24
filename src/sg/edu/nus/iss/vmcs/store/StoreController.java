@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import sg.edu.nus.iss.vmcs.system.DrinkPropertyLoader;
+import sg.edu.nus.iss.vmcs.system.Environment;
 import sg.edu.nus.iss.vmcs.system.FilePropertyLoader;
 import sg.edu.nus.iss.vmcs.system.StoreLoaderStrategy;
 import sg.edu.nus.iss.vmcs.system.StoreLoaderStrategy.StoreSaleItemType;
@@ -41,19 +43,47 @@ public class StoreController {
 		return (CashStore) stores.get(Store.CASH);
 	};
 	
+	
+	/**
+	 * PV:IFCOND(pv:hasFeature('Drink'))
+	 */
 	private DrinksStore dStore() 
 	{
 		return (DrinksStore) stores.get(Store.DRINK);
 	};
+	/**
+     * PV:ENDCOND 
+     */
 	
+	/**
+	 * PV:IFCOND(pv:hasFeature('Snack'))
+	 */
 	private SnacksStore sStore() 
 	{
 		return (SnacksStore) stores.get(Store.SNACK);
 	};
+	/**
+     * PV:ENDCOND 
+     */
 
 	private PropertyLoader cashLoader;
+	
+	/**
+	 * PV:IFCOND(pv:hasFeature('Drink'))
+	 */
 	private PropertyLoader drinksLoader = null;
+	/**
+     * PV:ENDCOND 
+     */
+	
+	/**
+	 * PV:IFCOND(pv:hasFeature('Snack'))
+	 */
 	private PropertyLoader snacksLoader = null;
+	/**
+     * PV:ENDCOND 
+     */
+	
 
 	/**
 	 * This constructor creates an instance of StoreController object.
@@ -65,8 +95,22 @@ public class StoreController {
 		StoreLoaderStrategy storeLoaderStrategy) {
 		this.cashLoader = cashLoader;
 		
+		/**
+		 * PV:IFCOND(pv:hasFeature('Drink'))
+		 */
 		this.drinksLoader = storeLoaderStrategy.GetLoader(StoreSaleItemType.Drink);
+		/**
+	     * PV:ENDCOND 
+	     */
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('Snack'))
+		 */
 		this.snacksLoader = storeLoaderStrategy.GetLoader(StoreSaleItemType.Snack);
+		/**
+	     * PV:ENDCOND 
+	     */
+		
 	}
 
 	/**
@@ -84,10 +128,28 @@ public class StoreController {
 	 */
 	private void initializeStores() throws IOException {
 		initializeCashStore();
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('Drink'))
+		 */
 		initializeDrinkStore();
+		/**
+	     * PV:ENDCOND 
+	     */
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('Snack'))
+		 */
 		initializeSnackStore();
+		/**
+	     * PV:ENDCOND 
+	     */
+		
 	}
-
+	
+	/**
+	 * PV:IFCOND(pv:hasFeature('Drink'))
+	 */
 	/**
 	 * This method initialize the {@link DrinksStore}.
 	 * @throws IOException if fail to initialize drinks store; reading properties.
@@ -108,7 +170,13 @@ public class StoreController {
 			dStore().addItem(i, item);
 		}
 	}
+	/**
+     * PV:ENDCOND 
+     */
 	
+	/**
+	 * PV:IFCOND(pv:hasFeature('Snack'))
+	 */
 	/**
 	 * This method initialize the {@link SnacksStore}.
 	 * @throws IOException if fail to initialize snacks store; reading properties.
@@ -129,6 +197,9 @@ public class StoreController {
 			sStore().addItem(i, item);
 		}
 	}
+	/**
+     * PV:ENDCOND 
+     */
 
 	/**
 	 * This method initialize the {@link CashStore}.
@@ -216,18 +287,34 @@ public class StoreController {
 	 */
 	public void setPrice(int idx, int pr, int type)  {
 		switch(type)
-		{
+		{	
+				/**
+				 * PV:IFCOND(pv:hasFeature('Drink'))
+				 */
 			case Store.DRINK: 
-				setSnackPrice(idx, pr);
-				break;
-			case Store.SNACK:
 				setDrinkPrice(idx, pr);
 				break;
+				/**
+			     * PV:ENDCOND 
+			     */
+				
+				/**
+				 * PV:IFCOND(pv:hasFeature('Snack'))
+				 */
+			case Store.SNACK:
+				setSnackPrice(idx, pr);
+				break;
+				/**
+			     * PV:ENDCOND 
+			     */
 			default:
 				return;
 		}
 	}
 	
+	/**
+	 * PV:IFCOND(pv:hasFeature('Drink'))
+	 */
 	private void setDrinkPrice(int idx, int pr)  {
 		if (dStore() == null) return;
 		
@@ -240,7 +327,13 @@ public class StoreController {
 
 		bd.setPrice(pr);
 	}
+	/**
+     * PV:ENDCOND 
+     */
 	
+	/**
+	 * PV:IFCOND(pv:hasFeature('Snack'))
+	 */
 	private void setSnackPrice(int idx, int pr)  {
 		if (sStore() == null) return;
 		StoreItem item;
@@ -252,6 +345,9 @@ public class StoreController {
 
 		sd.setPrice(pr);
 	}
+	/**
+     * PV:ENDCOND 
+     */
 
 	/**
 	 * This method returns the total number of cash held in the {@link CashStore}.
@@ -306,10 +402,24 @@ public class StoreController {
 	public void closeDown() throws IOException {
 		// save back cash property;
 		saveCashProperties();
+        
+        /**
+		 * PV:IFCOND(pv:hasFeature('Drink'))
+		 */
         saveDrinksProperties();
+		/**
+	     * PV:ENDCOND 
+	     */
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('Snack'))
+		 */
         saveSnacksProperties();
+		/**
+	     * PV:ENDCOND 
+	     */
 	}
-
+	
 	/**
 	 * This method saves the attributes of the {@link CashStore} to the input file.
 	 * @throws IOException if fail to save cash properties.
@@ -322,7 +432,11 @@ public class StoreController {
 		}
 		cashLoader.saveProperty();
 	}
-
+	
+	
+	/**
+	 * PV:IFCOND(pv:hasFeature('Drink'))
+	 */
 	/**
 	 * This method saves the attributes of the {@link DrinksStore} to the input file.
 	 * It saves the drink property when simulation is ended.
@@ -337,7 +451,13 @@ public class StoreController {
 		}
 		drinksLoader.saveProperty();
 	}
+	/**
+     * PV:ENDCOND 
+     */
 	
+	/**
+	 * PV:IFCOND(pv:hasFeature('Snack'))
+	 */
 	/**
 	 * This method saves the attributes of the {@link SnacksStore} to the input file.
 	 * It saves the snack property when simulation is ended.
@@ -352,6 +472,9 @@ public class StoreController {
 		}
 		snacksLoader.saveProperty();
 	}
+	/**
+     * PV:ENDCOND 
+     */
 
 	/**
 	 * This method instructs the {@link DrinksStore} to dispense one drink, and then updates the 

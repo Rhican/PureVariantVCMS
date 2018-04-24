@@ -18,10 +18,22 @@ public class AllTests {
 		  suite.addTestSuite(CashStoreTest.class);
 		  suite.addTestSuite(CoinTest.class);
 		  suite.addTestSuite(ItemsBrandTest.class);
+		  /**
+			 * PV:IFCOND(pv:hasFeature('Drink'))
+			 */
 		  suite.addTestSuite(DrinksStoreItemTest.class);
 		  suite.addTestSuite(DrinksStoreTest.class);
+			/**
+		     * PV:ENDCOND 
+		     */
+		  /**
+			 * PV:IFCOND(pv:hasFeature('Snack'))
+			 */
 		  suite.addTestSuite(SnacksStoreItemTest.class);
 		  suite.addTestSuite(SnacksStoreTest.class);
+			/**
+		     * PV:ENDCOND 
+		     */
 		  suite.addTestSuite(StoreControllerTest.class);
 		  suite.addTestSuite(StoreItemTest.class);
 		  suite.addTestSuite(StoreObjectTest.class);

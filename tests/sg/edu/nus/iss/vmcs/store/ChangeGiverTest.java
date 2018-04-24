@@ -7,7 +7,15 @@ import org.mockito.MockitoAnnotations;
 
 import junit.framework.TestCase;
 import sg.edu.nus.iss.vmcs.VariantPointConstants;
+
+/**
+ * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+ */
 import sg.edu.nus.iss.vmcs.customer.CardPaymentController;
+/**
+ * PV:ENDCOND 
+ */
+
 import sg.edu.nus.iss.vmcs.customer.ChangeGiver;
 import sg.edu.nus.iss.vmcs.customer.CustomerPanel;
 import sg.edu.nus.iss.vmcs.customer.DispenseControllerDecorator;
@@ -39,12 +47,21 @@ public class ChangeGiverTest extends TestCase {
 	MaintenanceController maintenanceCtrl;
 	@Mock
 	StoreController storeCtrl;
+	
+	/**
+	 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+	 */
 	@Mock
 	CardPaymentController cardPaymentCtrl;
+	/**
+	 * PV:ENDCOND 
+	 */
 
 	MainController mainCtrl;
 	TransactionController txCtrl;
 	ChangeGiver cg;
+	
+	private VariantPointConstants VariantPointConstants = new VariantPointConstants();
 
 	@Before
 	public void setUp() throws Exception {
@@ -58,14 +75,14 @@ public class ChangeGiverTest extends TestCase {
 
 	@Test
 	public void testLargerNoDenoGiveChange() {
-		VariantPointConstants.vLargerNoDenoGiveChange = true;
+//		VariantPointConstants.vLargerNoDenoGiveChange = true;
 		assertTrue(cg.giveChange(50));
 		assertTrue(cg.giveChange(0));
 	}
 
 	@Test
 	public void testBalanceNoDenoGiveChange() {
-		VariantPointConstants.vLargerNoDenoGiveChange = false;
+//		VariantPointConstants.vLargerNoDenoGiveChange = false;
 		assertTrue(cg.giveChange(50));
 		assertTrue(cg.giveChange(0));
 	}

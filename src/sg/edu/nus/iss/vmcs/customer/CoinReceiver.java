@@ -31,6 +31,8 @@ public class CoinReceiver implements PaymentController {
 	/**Total amount of money entered so far during current transaction.*/
 	private int totalInserted;
 	
+	private VariantPointConstants VariantPointConstants = new VariantPointConstants();
+	
 	/**
 	 * This constructor creates an instance of the object.
 	 * @param txCtrl the transaction controller.
@@ -91,10 +93,21 @@ public class CoinReceiver implements PaymentController {
 	 * can be received.
 	 */
 	public void continueReceive(){
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCash'))
+		 */
 		txCtrl.getCustomerPanel().setCoinInputBoxActive(true);
-		if (VariantPointConstants.vCardPayment) {
-			txCtrl.getCustomerPanel().setCardDetectorActive(false);
-		}
+		/**
+	     * PV:ENDCOND 
+	     */
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+		 */
+		txCtrl.getCustomerPanel().setCardDetectorActive(true);
+		/**
+	     * PV:ENDCOND 
+	     */
 	}
 	
 	/**
@@ -128,10 +141,22 @@ public class CoinReceiver implements PaymentController {
 		if(custPanel==null){
 			return;
 		}
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCash'))
+		 */
 		custPanel.setCoinInputBoxActive(false);
-		if (VariantPointConstants.vCardPayment) {
-			custPanel.setCardDetectorActive(false);
-		}
+		/**
+	     * PV:ENDCOND 
+	     */
+		
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+		 */
+		custPanel.setCardDetectorActive(false);
+		/**
+	     * PV:ENDCOND 
+	     */
 	}
 	
 	/**
@@ -144,9 +169,14 @@ public class CoinReceiver implements PaymentController {
 		txCtrl.getCustomerPanel().setChange(getTotalInserted());
 		txCtrl.getCustomerPanel().setTotalMoneyInserted(0);
 		txCtrl.getCustomerPanel().hideInvalidCoin();
-		if (VariantPointConstants.vCardPayment) {
-			txCtrl.getCustomerPanel().setCardDetectorActive(false);
-		}
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+		 */
+		txCtrl.getCustomerPanel().setCardDetectorActive(false);
+		/**
+	     * PV:ENDCOND 
+	     */
 		resetReceived();
 	}
 	
@@ -163,10 +193,22 @@ public class CoinReceiver implements PaymentController {
 	 * @param active TRUE to activate, FALSE to deactivate the Coin Input Box.
 	 */
 	public void setActive(boolean active){
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCash'))
+		 */
 		txCtrl.getCustomerPanel().setCoinInputBoxActive(active); 
-		if (VariantPointConstants.vCardPayment) {
-			txCtrl.getCustomerPanel().setCardDetectorActive(false);
-		}
+		/**
+	     * PV:ENDCOND 
+	     */
+		
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+		 */
+		txCtrl.getCustomerPanel().setCardDetectorActive(active);
+		/**
+	     * PV:ENDCOND 
+	     */
 	}
 
 	/**

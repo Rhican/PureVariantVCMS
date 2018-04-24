@@ -7,8 +7,16 @@ import org.mockito.MockitoAnnotations;
 
 import junit.framework.TestCase;
 import sg.edu.nus.iss.vmcs.VariantPointConstants;
+
+/**
+ * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+ */
 import sg.edu.nus.iss.vmcs.customer.CardPayment;
 import sg.edu.nus.iss.vmcs.customer.CardPaymentController;
+/**
+ * PV:ENDCOND 
+ */
+
 import sg.edu.nus.iss.vmcs.customer.ChangeGiver;
 import sg.edu.nus.iss.vmcs.customer.CoinReceiver;
 import sg.edu.nus.iss.vmcs.customer.CustomerPanel;
@@ -43,11 +51,20 @@ public class PaymentControllerTest extends TestCase {
 	MaintenanceController maintenanceCtrl;
 	@Mock
 	StoreController storeCtrl;
+	
+	/**
+	 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+	 */
 	@Mock
 	CardPaymentController cardPaymentCtrl;
+	/**
+	 * PV:ENDCOND 
+	 */
 
 	MainController mainCtrl;
 	TransactionController txCtrl;
+	
+	private VariantPointConstants VariantPointConstants = new VariantPointConstants();
 
 	@Before
 	public void setUp() throws Exception {
@@ -57,7 +74,10 @@ public class PaymentControllerTest extends TestCase {
 		mainCtrl.initialize();
 		txCtrl = new TransactionController(mainCtrl, custPanel, dispenseCtrl, changeGiver, paymentDecorator);
 	}
-
+	
+	/**
+	 * PV:IFCOND(pv:hasFeature('PaymentByCash'))
+	 */
 	@Test
 	public void testMakePaymentWithCash() {
 		String _50C = "35.0";
@@ -65,8 +85,8 @@ public class PaymentControllerTest extends TestCase {
 		CoinReceiver coinReceiver = new CoinReceiver(txCtrl);
 		PaymentDecorator payment = new PaymentDecorator(coinReceiver);
 		txCtrl.setPaymentDecorator(payment);
-		VariantPointConstants.vCardPayment = false;
-		VariantPointConstants.vCashPayment = true;
+//		VariantPointConstants.vCardPayment = false;
+//		VariantPointConstants.vCashPayment = true;
 		txCtrl.setPrice(50);
 		payment.makePayment(_50C);
 		assertTrue(coinReceiver.getTotalInserted() == 0);
@@ -79,8 +99,8 @@ public class PaymentControllerTest extends TestCase {
 
 		// Both card and cash mode available for payment.
 		txCtrl.setPaymentDecorator(payment);
-		VariantPointConstants.vCardPayment = true;
-		VariantPointConstants.vCashPayment = true;
+//		VariantPointConstants.vCardPayment = true;
+//		VariantPointConstants.vCashPayment = true;
 		txCtrl.setPrice(50);
 		payment.makePayment(_50C);
 		assertTrue(coinReceiver.getTotalInserted() == 0);
@@ -91,25 +111,34 @@ public class PaymentControllerTest extends TestCase {
 		payment.makePayment(_50C);
 		assertTrue(coinReceiver.getTotalInserted() == 50);
 	}
+	/**
+     * PV:ENDCOND 
+     */
 
+	/**
+	 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+	 */
 	@Test
 	public void testMakePaymentWithCard() {
 		// Only card mode available for payment.
 		CardPayment cardPayment = new CardPayment(txCtrl);
 		PaymentDecorator payment = new PaymentDecorator(cardPayment);
 		txCtrl.setPaymentDecorator(payment);
-		VariantPointConstants.vCardPayment = true;
-		VariantPointConstants.vCashPayment = false;
+//		VariantPointConstants.vCardPayment = true;
+//		VariantPointConstants.vCashPayment = false;
 		txCtrl.setPrice(50);
 		payment.makePayment("EZ Link card 1");
 		assertTrue(cardPayment.isPaymentSuccess());
 		
 		// Both card and cash mode available for payment.
 		txCtrl.setPaymentDecorator(payment);
-		VariantPointConstants.vCardPayment = true;
-		VariantPointConstants.vCashPayment = true;
+//		VariantPointConstants.vCardPayment = true;
+//		VariantPointConstants.vCashPayment = true;
 		txCtrl.setPrice(50);
 		payment.makePayment("EZ Link card 1");
 		assertTrue(cardPayment.isPaymentSuccess());
 	}
+	/**
+     * PV:ENDCOND 
+     */
 }

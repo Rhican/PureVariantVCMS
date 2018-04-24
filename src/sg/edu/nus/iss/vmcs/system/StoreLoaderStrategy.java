@@ -69,8 +69,17 @@ public class StoreLoaderStrategy {
 	 */
 	private FilePropertyLoader CreateDrinkPropertyLoader() {
 		// get the drink file from the environment property file;
+		FilePropertyLoader loader = null;
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('Drink'))
+		 */
 		String file = Environment.getDrinkPropFile();
-		FilePropertyLoader loader = new DrinkPropertyLoader(file);
+		loader = new DrinkPropertyLoader(file);
+		/**
+	     * PV:ENDCOND 
+	     */
+		
 		return loader;
 	}
 	
@@ -87,8 +96,17 @@ public class StoreLoaderStrategy {
 	 */
 	private FilePropertyLoader CreateSnackPropertyLoader() {
 		// get the snack file from the environment property file;
+		FilePropertyLoader loader = null;
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('Snack'))
+		 */
 		String file = Environment.getSnackPropFile();
-		FilePropertyLoader loader = new SnackPropertyLoader(file);
+		loader = new SnackPropertyLoader(file);
+		/**
+	     * PV:ENDCOND 
+	     */
+		
 		return loader;
 	}
 }

@@ -48,7 +48,13 @@ public class DispenseController implements DispenseComponent {
 			ItemsBrand drinksBrand=(ItemsBrand)storeItem.getContent();
 			String name=drinksBrand.getName();
 			int price=drinksBrand.getPrice();
+			/**
+			 * PV:IFCOND(pv:hasFeature('Drink'))
+			 */
 			custPanel.getDrinkSelectionBox().update(i, quantity, price, name);
+			/**
+		     * PV:ENDCOND 
+		     */	
 		}
 	}
 	
@@ -69,7 +75,13 @@ public class DispenseController implements DispenseComponent {
 			ItemsBrand snacksBrand=(ItemsBrand)storeItem.getContent();
 			String name=snacksBrand.getName();
 			int price=snacksBrand.getPrice();
-			custPanel.getDrinkSelectionBox().update(i, quantity, price, name);
+			/**
+			 * PV:IFCOND(pv:hasFeature('Snack'))
+			 */
+			custPanel.getSnackSelectionBox().update(i, quantity, price, name);
+			/**
+		     * PV:ENDCOND 
+		     */	
 		}
 	}
 	
@@ -97,14 +109,20 @@ public class DispenseController implements DispenseComponent {
 	 * @param allow TRUE to activate, FALSE to deactivate the Drink Selection Box.
 	 */
 	public void allowSelection(boolean allow){
+		StoreController storeCtrl;
+		int storeSize = 0;
 		MainController mainCtrl=txCtrl.getMainController();
 		CustomerPanel custPanel=txCtrl.getCustomerPanel();
 		if(custPanel==null){
 			return;
 		}
+		
+		 /**
+		 * PV:IFCOND(pv:hasFeature('Drink'))
+		 */
 		DrinkSelectionBox drinkSelectionBox=custPanel.getDrinkSelectionBox();
-		StoreController storeCtrl=mainCtrl.getStoreController();
-		int storeSize=storeCtrl.getStoreSize(Store.DRINK);
+		storeCtrl=mainCtrl.getStoreController();
+		storeSize=storeCtrl.getStoreSize(Store.DRINK);
 		for(int i=0;i<storeSize;i++){
 			drinkSelectionBox.setState(i,allow);
 			StoreItem storeItem=storeCtrl.getStoreItem(Store.DRINK, i);
@@ -112,7 +130,13 @@ public class DispenseController implements DispenseComponent {
 			if(quantity==0)
 				drinkSelectionBox.setItemState(i,true);
 		}
+		/**
+	     * PV:ENDCOND 
+	     */
 		
+		/**
+		 * PV:IFCOND(pv:hasFeature('Snack'))
+		 */
 		SnackSelectionBox snackSelectionBox=custPanel.getSnackSelectionBox();
 		storeCtrl=mainCtrl.getStoreController();
 		storeSize=storeCtrl.getStoreSize(Store.SNACK);
@@ -123,6 +147,11 @@ public class DispenseController implements DispenseComponent {
 			if(quantity==0)
 				snackSelectionBox.setItemState(i,true);
 		}
+		/**
+	     * PV:ENDCOND 
+	     */
+
+		
 	}
 	
 	/**
@@ -160,7 +189,13 @@ public class DispenseController implements DispenseComponent {
 			int quantity=drinkStoreItem.getQuantity();
 			txCtrl.getCustomerPanel().setCan(drinksName);
 			updateDrinkSelection(selectedBrand);
+			/**
+			 * PV:IFCOND(pv:hasFeature('Drink'))
+			 */
 			txCtrl.getCustomerPanel().getDrinkSelectionBox().update(selectedBrand, quantity, price, drinksName);
+			/**
+		     * PV:ENDCOND 
+		     */	
 		}
 		catch(VMCSException ex){
 			txCtrl.terminateFault();
@@ -195,7 +230,14 @@ public class DispenseController implements DispenseComponent {
 			int quantity=snackStoreItem.getQuantity();
 			txCtrl.getCustomerPanel().setCan(snacksName);
 			updateSnackSelection(selectedSnack);
+			/**
+			 * PV:IFCOND(pv:hasFeature('Snack'))
+			 */
 			txCtrl.getCustomerPanel().getSnackSelectionBox().update(selectedSnack, quantity, price, snacksName);
+			/**
+		     * PV:ENDCOND 
+		     */
+			
 		}
 		catch(VMCSException ex){
 			txCtrl.terminateFault();

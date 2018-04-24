@@ -31,6 +31,8 @@ public class CardDetector extends Panel implements WindowListener,ActionListener
 	
 	private TransactionController txCtrl;
 	
+	private VariantPointConstants VariantPointConstants = new VariantPointConstants();
+	
 	/**
 	 * This constructor creates an instance of the object.
 	 * @param cctrl the TransactionController.
@@ -57,10 +59,19 @@ public class CardDetector extends Panel implements WindowListener,ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (txCtrl.getPaymentDecorator() == null) {
-			txCtrl.setPaymentDecorator(
-					VariantPointConstants.vLogPayment
-						? new PaymentLogDecorator(new CardPayment(txCtrl))
-						: new PaymentDecorator(new CardPayment(txCtrl)));
+			
+			/**
+			 * PV:IFCOND(pv:hasFeature('LogPayment'))
+			 */
+			txCtrl.setPaymentDecorator(new PaymentLogDecorator(new CardPayment(txCtrl)));
+			/**
+		     * PV:ELSECOND 
+		     */
+			txCtrl.setPaymentDecorator(new PaymentDecorator(new CardPayment(txCtrl)));
+			/**
+		     * PV:ENDCOND 
+		     */
+			
 		}
 		txCtrl.getPaymentDecorator().makePayment("Dummy EZ Link Info");
 	}

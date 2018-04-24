@@ -7,11 +7,24 @@ import sg.edu.nus.iss.vmcs.VariantPointConstants;
  * @author SPLE Team 04
  */
 public class ChangeGiverFactory {
+	private static VariantPointConstants VariantPointConstants = new VariantPointConstants();
+	
 	public static GiveChangeStrategy createChangeGiver(TransactionController txCtrl) {
-		if (VariantPointConstants.vLargerNoDenoGiveChange) {
-			return new LargerNoDenoGiveChange(txCtrl);
-		} else {
-			return new BalanceNoDenoGiveChange(txCtrl);
-		}
+		
+		GiveChangeStrategy strategy = null;
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('LargerNumberOfDenomination'))
+		 */
+		strategy = new LargerNoDenoGiveChange(txCtrl);
+		/**
+	     * PV:ELSEIFCOND(pv:hasFeature('BalanceNumberOfDenomination')) 
+	     */
+		strategy = new BalanceNoDenoGiveChange(txCtrl);
+		/**
+	     * PV:ENDCOND 
+	     */
+		
+		return strategy;
 	}
 }

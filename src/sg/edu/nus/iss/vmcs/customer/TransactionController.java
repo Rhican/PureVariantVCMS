@@ -36,6 +36,7 @@ public class TransactionController {
 	private DispenseControllerDecorator dispenseCtrl;
 	private ChangeGiver changeGiver;
 	private PaymentDecorator paymentDecorator;
+	private VariantPointConstants VariantPointConstants = new VariantPointConstants();
 
 	/**Set to TRUE when change is successfully issued during the transaction.*/
 	private boolean changeGiven=false;
@@ -61,9 +62,19 @@ public class TransactionController {
 	 */
 	public TransactionController(MainController mainCtrl) {
 		this.mainCtrl = mainCtrl;
-		dispenseCtrl= (VariantPointConstants.vLogItemDispensing) 
-				? new DispenseControllerLogDecorator(new DispenseController(this))
-				: new DispenseControllerDecorator(new DispenseController(this));
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('LogDispenseProduct'))
+		 */
+		dispenseCtrl = new DispenseControllerLogDecorator(new DispenseController(this));
+		/**
+	     * PV:ELSECOND 
+	     */
+		dispenseCtrl = new DispenseControllerDecorator(new DispenseController(this));
+		/**
+	     * PV:ENDCOND 
+	     */
+		
 //		coinReceiver = (VariantPointConstants.vLogPayment) 
 //				? new CoinReceptionLogDecorator(new CoinReceiver(this))
 //				: new CoinReceptionDecorator(new CoinReceiver(this));
@@ -88,12 +99,22 @@ public class TransactionController {
 		dispenseCtrl.updateDrinkPanel();
 		dispenseCtrl.allowSelection(true);
 		changeGiver.displayChangeStatus();
-		if (VariantPointConstants.vCashPayment) {
-			custPanel.setCoinInputBoxActive(false);
-		}
-		if (VariantPointConstants.vCardPayment) {
-			custPanel.setCardDetectorActive(false);
-		}
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCash'))
+		 */
+		custPanel.setCoinInputBoxActive(false);
+		/**
+	     * PV:ENDCOND 
+	     */
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+		 */
+		custPanel.setCardDetectorActive(false);
+		/**
+	     * PV:ENDCOND 
+	     */
 	}
 	
 	/**
@@ -144,15 +165,23 @@ public class TransactionController {
 	 * Money Inserted Display on the Customer Panel.
 	 */
 	public void activatePaymentReceiver(){
-		if (VariantPointConstants.vCashPayment) {
-			custPanel.setCoinInputBoxActive(true);
-			custPanel.setTotalMoneyInserted(0);
-		}
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCash'))
+		 */
+		custPanel.setCoinInputBoxActive(true);
+		custPanel.setTotalMoneyInserted(0);
+		/**
+	     * PV:ENDCOND 
+	     */
 		
-		if (VariantPointConstants.vCardPayment) {
-			custPanel.setCardDetectorActive(true);
-			custPanel.setTotalMoneyInserted(0);
-		}
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+		 */
+		custPanel.setCardDetectorActive(true);
+		custPanel.setTotalMoneyInserted(0);
+		/**
+	     * PV:ENDCOND 
+	     */
 	}
 	
 	/**
@@ -169,12 +198,22 @@ public class TransactionController {
 	 * @param total the total money received&#46;
 	 */
 	public void processMoneyReceived(int total){
-		if (VariantPointConstants.vCardPayment) {
-			custPanel.setCardDetectorActive(false);
-		}
-		if (VariantPointConstants.vCashPayment) {
-			custPanel.setCoinInputBoxActive(false);
-		}
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCash'))
+		 */
+		custPanel.setCoinInputBoxActive(false);
+		/**
+	     * PV:ENDCOND 
+	     */
+		
+		/**
+		 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+		 */
+		custPanel.setCardDetectorActive(false);
+		/**
+	     * PV:ENDCOND 
+	     */
+		
 		if(total>=price)
 			completeTransaction(total);
 		else{
@@ -259,12 +298,22 @@ public class TransactionController {
 		}
 		if(custPanel!=null){
 			custPanel.setTerminateButtonActive(false);
-			if (VariantPointConstants.vCardPayment) {
-				custPanel.setCardDetectorActive(false);
-			}
-			if (VariantPointConstants.vCashPayment) {
-				custPanel.setCoinInputBoxActive(false);
-			}
+			
+			/**
+			 * PV:IFCOND(pv:hasFeature('PaymentByCash'))
+			 */
+			custPanel.setCoinInputBoxActive(false);
+			/**
+		     * PV:ENDCOND 
+		     */
+			
+			/**
+			 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+			 */
+			custPanel.setCardDetectorActive(false);
+			/**
+		     * PV:ENDCOND 
+		     */
 		}
 		refreshMachineryDisplay();
 		paymentDecorator = null;
@@ -282,12 +331,22 @@ public class TransactionController {
 		}
 		if(custPanel!=null){
 			custPanel.setTerminateButtonActive(false);
-			if (VariantPointConstants.vCardPayment) {
-				custPanel.setCardDetectorActive(false);
-			}
-			if (VariantPointConstants.vCashPayment) {
-				custPanel.setCoinInputBoxActive(false);
-			}
+			
+			/**
+			 * PV:IFCOND(pv:hasFeature('PaymentByCash'))
+			 */
+			custPanel.setCoinInputBoxActive(false);
+			/**
+		     * PV:ENDCOND 
+		     */
+			
+			/**
+			 * PV:IFCOND(pv:hasFeature('PaymentByCard'))
+			 */
+			custPanel.setCardDetectorActive(false);
+			/**
+		     * PV:ENDCOND 
+		     */
 		}
 		dispenseCtrl.allowSelection(true);
 		refreshMachineryDisplay();
